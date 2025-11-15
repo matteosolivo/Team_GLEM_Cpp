@@ -3,17 +3,19 @@
 
 #include <string>
 
+using namespace std;
+
 class Mezzo {
 private:
     int id;
-    std::string tipo;
+    string tipo;
     bool disponibile;
 
 public:
-    Mezzo(int id, const std::string& tipo);
+    Mezzo(int id, const string& tipo);
 
     int getId() const;
-    std::string getTipo() const;
+    string getTipo() const;
     bool isDisponibile() const;
     void setDisponibile(bool disp);
 };

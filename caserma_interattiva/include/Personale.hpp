@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 enum class Grado {
     SOLDATO,
     CAPORALE,
@@ -15,20 +17,20 @@ enum class Grado {
 class Personale {
 private:
     int id;
-    std::string nome;
+    string nome;
     Grado grado;
     bool disponibile;
 
 public:
-    Personale(int id, const std::string& nome, Grado grado);
+    Personale(int id, const string& nome, Grado grado);
 
     int getId() const;
-    std::string getNome() const;
+    string getNome() const;
     Grado getGrado() const;
     bool isDisponibile() const;
 
     void setDisponibile(bool disp);
-    std::string gradoToString() const;
+    string gradoToString() const;
 };
 
 #endif
