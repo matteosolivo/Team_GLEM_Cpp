@@ -1,9 +1,8 @@
-#ifndef PERSONALE_HPP
-#define PERSONALE_HPP
-
+#pragma once
+#include "../Abstract_risorsa/abs.risorsa.hpp"
 #include <string>
 
-enum class Grado {
+enum class Grado{
     SOLDATO,
     CAPORALE,
     SERGENTE,
@@ -12,23 +11,20 @@ enum class Grado {
     MAGGIORE
 };
 
-class Personale {
+class Personale:public Risorsa {
 private:
-    int id;
     std::string nome;
     Grado grado;
-    bool disponibile;
 
 public:
-    Personale(int id, const std::string& nome, Grado grado);
+    Personale(int id, const std::string& nome, Grado grado,bool disponibile);
 
-    int getId() const;
+    int getId() const override;
     std::string getNome() const;
     Grado getGrado() const;
-    bool isDisponibile() const;
+    bool isDisponibile() const override;
 
-    void setDisponibile(bool disp);
+    void setDisponibile(bool disp)override;
     std::string gradoToString() const;
 };
 
-#endif

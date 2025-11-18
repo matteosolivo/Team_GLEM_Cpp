@@ -1,21 +1,23 @@
-#ifndef MEZZO_HPP
-#define MEZZO_HPP
-
+#pragma once
 #include <string>
+#include "../Abstract_risorsa/abs.risorsa.hpp"
 
-class Mezzo {
+class Mezzo : public Risorsa {
 private:
-    int id;
     std::string tipo;
-    bool disponibile;
 
 public:
-    Mezzo(int id, const std::string& tipo);
+    // Il costruttore deve ricevere i dati per la classe base
+    Mezzo(int id, bool disponibile, const std::string& tipo);
 
-    int getId() const;
+    // Implementazione del Contratto di Risorsa
+    //Mezzo implementerà questi metodi
+    // La parola chiave 'override' è un controllo di sicurezza
+    int getId() const override;
+    bool isDisponibile() const override;
+    void setDisponibile(bool disp)override;
+
+    //Metodo Specifico della classe Mezzo
     std::string getTipo() const;
-    bool isDisponibile() const;
-    void setDisponibile(bool disp);
 };
 
-#endif
