@@ -17,14 +17,17 @@ private:
     Grado grado;
 
 public:
-    Personale(int id, const std::string& nome, Grado grado,bool disponibile);
+    Personale(const std::string& nome, Grado grado);
 
-    int getId() const override;
+    //int getId() const;
     std::string getNome() const;
     Grado getGrado() const;
-    bool isDisponibile() const override;
+    //bool isDisponibile() const;
 
-    void setDisponibile(bool disp)override;
+   // void setDisponibile(bool disp);
+    std::string descrizione()const override{
+        gradoToString();
+    }
     std::string gradoToString() const;
 };
 
