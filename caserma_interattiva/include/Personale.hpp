@@ -2,7 +2,6 @@
 #define PERSONALE_HPP
 
 #include "Risorsa.hpp"
-#include <string>
 
 enum class Grado{
     SOLDATO,
@@ -15,22 +14,17 @@ enum class Grado{
 
 class Personale: public Risorsa {
 private:
-    std::string nome;
+    string nome;
     Grado grado;
 
 public:
-    Personale(const std::string& nome, Grado grado);
+    Personale(int id, const string& nome, Grado grado);
 
-    //int getId() const;
-    std::string getNome() const;
+    string getNome() const;
     Grado getGrado() const;
-    //bool isDisponibile() const;
 
-   // void setDisponibile(bool disp);
-    std::string descrizione()const override{
-        gradoToString();
-    }
-    std::string gradoToString() const;
+    string gradoToString() const;
+    void getDescrizione() const override;
 };
 
 #endif

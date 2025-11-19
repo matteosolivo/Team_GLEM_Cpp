@@ -4,34 +4,30 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 class Risorsa {
 protected:
     int id;
     bool disponibile;
 
 public:
-    // Il tuo codice precedente ignorava i parametri (metteva sempre 0 e true).
-    Risorsa(int id, bool disponibile){
-        this->id=0;
-        this->disponibile=true;
+    // COSTRUTTORE
+    Risorsa(int id){
+        this->id = id;
+        this->disponibile = true;
     }
-    
-    int getId() const {
-        return id;
-    }
-
-    bool isDisponibile() const {
-        return disponibile;
-    }
-
-    void setDisponibile(bool disp) {
-        this->disponibile = disp;
-    }
-    // Questo è l'unico metodo che cambia veramente tra un Mezzo e il Personale.
-    virtual std::string descrizione() const = 0;
-
-    // Distruttore virtuale (Best practise)
+    // DISTRUTTORE
     virtual ~Risorsa() = default;
+    
+    int getId() const { return id; }
+    bool isDisponibile() const { return disponibile; }
+
+    void setDisponibile(bool disp) { disponibile = disp; }
+    
+    // METODI DA FAR IMPLEMENTARE ALLE SINGOLE CLASSI Mezzo.cpp, Personale.cpp, ...
+    virtual void getDescrizione() const = 0;
+    
 };
 
 #endif

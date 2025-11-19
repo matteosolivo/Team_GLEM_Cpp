@@ -2,21 +2,16 @@
 #define MEZZO_HPP
 
 #include "Risorsa.hpp"
-#include <string>
 
 class Mezzo : public Risorsa {
 private:
-    std::string tipo;
+    string tipo;
 
 public:
-    // Il costruttore deve ricevere i dati per la classe base
-    Mezzo(const std::string& tipo);
+    Mezzo(int id, const string& tipo);
 
-    //Metodo Specifico della classe Mezzo
-    std::string descrizione()const override{
-        getTipo();
-    }
-    std::string getTipo() const;
+    string getTipo() const;
+    void getDescrizione() const override;
 };
 
 #endif
