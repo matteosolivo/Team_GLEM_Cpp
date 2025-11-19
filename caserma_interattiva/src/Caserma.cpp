@@ -8,15 +8,15 @@ Caserma& Caserma::getInstance() {
 }
 
 void Caserma::aggiungiPersonale(const Personale& p) {
-    if (personale.esisteRisorsa(p.getId()))
-        throw runtime_error("ID personale duplicato.");
-    personale.aggiungiRisorsa(p);
+    if (personale.esisteRisorsa(p.getId())){
+        personale.aggiungiRisorsa(p);
+    }
 }
 
 void Caserma::aggiungiMezzo(const Mezzo& m) {
-    if (mezzi.esisteRisorsa(m.getId()))
-        throw runtime_error("ID mezzo duplicato.");
-    mezzi.aggiungiRisorsa(m);
+    if (mezzi.esisteRisorsa(m.getId())){
+        mezzi.aggiungiRisorsa(m);
+    }
 }
 
 void Caserma::creaMissione(const string& descrizione, const vector<int>& idPersonale, const vector<int>& idMezzi) {
