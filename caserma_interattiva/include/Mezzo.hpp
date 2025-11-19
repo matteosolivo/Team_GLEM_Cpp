@@ -1,6 +1,8 @@
-#pragma once
+#ifndef MEZZO_HPP
+#define MEZZO_HPP
+
+#include "Risorsa.hpp"
 #include <string>
-#include "../Abstract_risorsa/abs.risorsa.hpp"
 
 class Mezzo : public Risorsa {
 private:
@@ -17,3 +19,4 @@ public:
     std::string getTipo() const;
 };
 
+#endif

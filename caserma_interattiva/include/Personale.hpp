@@ -1,5 +1,7 @@
-#pragma once
-#include "../Abstract_risorsa/abs.risorsa.hpp"
+#ifndef PERSONALE_HPP
+#define PERSONALE_HPP
+
+#include "Risorsa.hpp"
 #include <string>
 
 enum class Grado{
@@ -11,7 +13,7 @@ enum class Grado{
     MAGGIORE
 };
 
-class Personale:public Risorsa {
+class Personale: public Risorsa {
 private:
     std::string nome;
     Grado grado;
@@ -31,3 +33,4 @@ public:
     std::string gradoToString() const;
 };
 
+#endif

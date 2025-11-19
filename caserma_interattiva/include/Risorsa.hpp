@@ -1,4 +1,6 @@
-#pragma once
+#ifndef RISORSA_HPP
+#define RISORSA_HPP
+
 #include <iostream>
 #include <string>
 
@@ -31,3 +33,5 @@ public:
     // Distruttore virtuale (Best practise)
     virtual ~Risorsa() = default;
 };
+
+#endif
