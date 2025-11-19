@@ -1,84 +1,48 @@
 #include "../include/Caserma.hpp"
 #include <iostream>
+#include <stdexcept>
+
+Caserma& Caserma::getInstance() {
+    static Caserma instance;
+    return instance;
+}
 
 void Caserma::aggiungiPersonale(const Personale& p) {
-    bool duplicato = false;
-    for(auto& persona : personale){
-        if (persona.getId() == p.getId()){
-            duplicato = true;
-        }
-    }
-    // CONTROLLO DUPLICATI PER Personale
-    if (!duplicato)
-    {
-        personale.push_back(p);
-    } else {
-        ///////////////////////////////////////////// eccezione
-    }
+    if (personale.esisteRisorsa(p.getId()))
+        throw runtime_error("ID personale duplicato.");
+    personale.aggiungiRisorsa(p);
 }
 
 void Caserma::aggiungiMezzo(const Mezzo& m) {
-    bool duplicato = false;
-    for(auto& mezzo : mezzi){
-        if (mezzo.getId() == m.getId()){
-            duplicato = true;
-        }
-    }
-    // CONTROLLO DUPLICATI PER Mezzi
-    if (!duplicato)
-    {
-        mezzi.push_back(m);
-    } else {
-        ///////////////////////////////////////////// eccezione
-    }
+    if (mezzi.esisteRisorsa(m.getId()))
+        throw runtime_error("ID mezzo duplicato.");
+    mezzi.aggiungiRisorsa(m);
 }
 
-void Caserma::creaMissione(const string& descrizione,
-                           const vector<int>& idPersonale,
-                           const vector<int>& idMezzi) {
+void Caserma::creaMissione(const string& descrizione, const vector<int>& idPersonale, const vector<int>& idMezzi) {
+    Missione missione(missioni.size() + 1, descrizione);
 
-    // UTILIZZO DEL BUILDER PER COMPORRE OGGETTO Missione??
-    //MissionBuilder builder;
-
-    int id = missioni.size() + 1;
-    Missione missione(id, descrizione);
-
-    for (int idP : idPersonale) {
-        for (auto& p : personale)
-            if (p.getId() == idP && p.isDisponibile())
-                missione.assegnaPersonale(&p);
-    }
-    
-    for (int idM : idMezzi) {
-        for (auto& m : mezzi)
-            if (m.getId() == idM && m.isDisponibile())
-                missione.assegnaMezzo(&m);
+    for (int id : idPersonale) {
+        Personale* p = personale.getById(id);
+        if (!p || !p->isDisponibile()){
+            missione.assegnaPersonale(p);
+        }
+        p->setDisponibile(false);
     }
 
+    for (int id : idMezzi) {
+        Mezzo* m = mezzi.getById(id);
+        if (!m || !m->isDisponibile()){
+            missione.assegnaMezzo(m);
+            m->setDisponibile(false);
+        }
+    }
     missioni.push_back(missione);
 }
 
-void Caserma::mostraPersonale() const {
-    cout << "\n--- Personale ---\n";
-    for (const auto& p : personale){
-        cout << p.getId() << " - "
-             << p.getNome() << " ("
-             << p.gradoToString() << ") ["
-             << (p.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
-    }
-}
-
-void Caserma::mostraMezzi() const {
-    cout << "\n--- Mezzi ---\n";
-    for (const auto& m : mezzi){
-        cout << m.getId() << " - "
-             << m.getTipo() << " ["
-             << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
-    }
-}
-
+void Caserma::mostraPersonale() const { personale.stampaTutte(); }
+void Caserma::mostraMezzi() const { mezzi.stampaTutte(); }
 void Caserma::mostraMissioni() const {
-    cout << "\n=== Elenco Missioni ===\n";
     for (const auto& m : missioni){
         m.mostraDettagli();
     }

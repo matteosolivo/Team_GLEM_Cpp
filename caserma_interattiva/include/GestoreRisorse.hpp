@@ -1,31 +1,45 @@
-#ifndef GESTORE_RISORSE_HPP
-#define GESTORE_RISORSE_HPP
+#ifndef GESTORERISORSE_HPP
+#define GESTORERISORSE_HPP
 
 #include <vector>
-#include <iostream>
 
-template<typename T>
+template <typename T>
 class GestoreRisorse {
 private:
-    std::vector<T*> risorse;
+    vector<T> risorse;
 
 public:
-    void aggiungi(T* r) {
-        for (auto* x : risorse){
-            if (x->getId() == r->getId()){ // EVITA DOPPIONI
-                return;
+    void aggiungiRisorsa(const T& r) {
+        for (const auto& esistente : risorse){
+            if (esistente.getId() == r.getId()){ // ECCEZIONE ?
+        risorse.push_back(r);
             }
-        }
-        risorse.push_back(r); 
-    }   
-
-    void mostraTutte() const {
-        for (auto* r : risorse){
-            cout << " - " << r->getDescrizione() << (r->isDisponibile() ? " [Disponibile]" : " [Occupata]") << "\n";
         }
     }
 
-    const vector<T*>& getLista() const { return risorse; }
+    bool esisteRisorsa(int id) const {
+        for (const auto& r : risorse){
+            if (r.getId() == id){
+                return true;
+        return false;
+            }
+        }
+    }
+
+    T* getById(int id) {
+        for (auto& r : risorse){
+            if (r.getId() == id){
+                return &r;
+            }
+        return nullptr;
+        }
+    }
+
+    void stampaTutte() const {
+        for (const auto& r : risorse){
+            r.stampa();
+        }
+    }
 };
 
 #endif

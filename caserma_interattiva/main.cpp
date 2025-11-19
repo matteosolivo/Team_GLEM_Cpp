@@ -28,7 +28,7 @@ int main() {
                 cin.ignore();
                 getline(std::cin, nome);
                 Grado grado = scegliGrado();
-                int id = rand() % 1000 + 1; // ID casuale semplice controllo inserimento su Caserma
+                int id = rand() % 1000 + 1;  // ID casuale. Controllo inserimento su GestoreRisorse.hpp
                 caserma.aggiungiPersonale(Personale(id, nome, grado));
                 cout << "Personale aggiunto con ID " << id << "\n";
                 break;
@@ -39,7 +39,7 @@ int main() {
                 cout << "Inserisci tipo di mezzo (es: Jeep, Camion, Elicottero): ";
                 cin.ignore();
                 getline(std::cin, tipo);
-                int id = rand() % 1000 + 1; // fare un controllo inserimento su Caserma
+                int id = rand() % 1000 + 1; // ID casuale. Controllo inserimento su GestoreRisorse.hpp
                 caserma.aggiungiMezzo(Mezzo(id, tipo));
                 cout << "Mezzo aggiunto con ID " << id << "\n";
                 break;
