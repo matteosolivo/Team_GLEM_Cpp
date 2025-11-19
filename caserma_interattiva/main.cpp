@@ -6,67 +6,67 @@ void menu();
 Grado scegliGrado();
 
 int main() {
-    Caserma caserma;
+    Caserma& caserma = Caserma::getInstance();
     int scelta = 0;
 
     do {
         menu();
-        std::cout << "\nScelta: ";
-        std::cin >> scelta;
+        cout << "\nScelta: ";
+        cin >> scelta;
 
         if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Input non valido.\n";
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Input non valido.\n";
             continue;
         }
 
         switch (scelta) {
             case 1: {
-                std::string nome;
-                std::cout << "Inserisci nome del militare: ";
-                std::cin.ignore();
-                std::getline(std::cin, nome);
+                string nome;
+                cout << "Inserisci nome del militare: ";
+                cin.ignore();
+                getline(std::cin, nome);
                 Grado grado = scegliGrado();
-                int id = rand() % 1000 + 1; // ID casuale semplice
+                int id = rand() % 1000 + 1;  // ID casuale. Controllo inserimento su GestoreRisorse.hpp
                 caserma.aggiungiPersonale(Personale(id, nome, grado));
-                std::cout << "Personale aggiunto con ID " << id << "\n";
+                cout << "Personale aggiunto con ID " << id << "\n";
                 break;
             }
 
             case 2: {
-                std::string tipo;
-                std::cout << "Inserisci tipo di mezzo (es: Jeep, Camion, Elicottero): ";
-                std::cin.ignore();
-                std::getline(std::cin, tipo);
-                int id = rand() % 1000 + 1;
+                string tipo;
+                cout << "Inserisci tipo di mezzo (es: Jeep, Camion, Elicottero): ";
+                cin.ignore();
+                getline(std::cin, tipo);
+                int id = rand() % 1000 + 1; // ID casuale. Controllo inserimento su GestoreRisorse.hpp
                 caserma.aggiungiMezzo(Mezzo(id, tipo));
-                std::cout << "Mezzo aggiunto con ID " << id << "\n";
+                cout << "Mezzo aggiunto con ID " << id << "\n";
                 break;
             }
 
             case 3: {
-                std::string descrizione;
-                std::cout << "Descrizione missione: ";
-                std::cin.ignore();
-                std::getline(std::cin, descrizione);
+                string descrizione;
+                cout << "Descrizione missione: ";
+                cin.ignore();
+                getline(std::cin, descrizione);
 
                 caserma.mostraPersonale();
-                std::cout << "Inserisci ID del personale da assegnare (termina con -1): ";
-                std::vector<int> idPersonale;
+                cout << "Inserisci ID del personale da assegnare (termina con -1): ";
+                vector<int> idPersonale;
                 int idp;
                 while (std::cin >> idp && idp != -1)
                     idPersonale.push_back(idp);
 
                 caserma.mostraMezzi();
-                std::cout << "Inserisci ID dei mezzi da assegnare (termina con -1): ";
-                std::vector<int> idMezzi;
+                cout << "Inserisci ID dei mezzi da assegnare (termina con -1): ";
+                vector<int> idMezzi;
                 int idm;
                 while (std::cin >> idm && idm != -1)
                     idMezzi.push_back(idm);
 
                 caserma.creaMissione(descrizione, idPersonale, idMezzi);
-                std::cout << "Missione creata!\n";
+                cout << "Missione creata!\n";
                 break;
             }
 
@@ -83,11 +83,11 @@ int main() {
                 break;
 
             case 0:
-                std::cout << "Uscita...\n";
+                cout << "Uscita...\n";
                 break;
 
             default:
-                std::cout << "Scelta non valida!\n";
+                cout << "Scelta non valida!\n";
         }
 
     } while (scelta != 0);
@@ -96,22 +96,22 @@ int main() {
 }
 
 void menu() {
-    std::cout << "\n========== GESTIONE CASERMA ==========" << std::endl;
-    std::cout << "1. Aggiungi personale" << std::endl;
-    std::cout << "2. Aggiungi mezzo" << std::endl;
-    std::cout << "3. Crea missione" << std::endl;
-    std::cout << "4. Mostra personale" << std::endl;
-    std::cout << "5. Mostra mezzi" << std::endl;
-    std::cout << "6. Mostra missioni" << std::endl;
-    std::cout << "0. Esci" << std::endl;
+    cout << "\n========== GESTIONE CASERMA ==========" << endl;
+    cout << "1. Aggiungi personale" << endl;
+    cout << "2. Aggiungi mezzo" << endl;
+    cout << "3. Crea missione" << endl;
+    cout << "4. Mostra personale" << endl;
+    cout << "5. Mostra mezzi" << endl;
+    cout << "6. Mostra missioni" << endl;
+    cout << "0. Esci" << endl;
 }
 
 Grado scegliGrado() {
     int g;
-    std::cout << "Scegli grado:\n";
-    std::cout << "1. Soldato\n2. Caporale\n3. Sergente\n4. Tenente\n5. Capitano\n6. Maggiore\n";
-    std::cout << "Scelta: ";
-    std::cin >> g;
+    cout << "Scegli grado:\n";
+    cout << "1. Soldato\n2. Caporale\n3. Sergente\n4. Tenente\n5. Capitano\n6. Maggiore\n";
+    cout << "Scelta: ";
+    cin >> g;
 
     switch (g) {
         case 1: return Grado::SOLDATO;

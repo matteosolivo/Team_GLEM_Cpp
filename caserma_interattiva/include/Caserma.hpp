@@ -1,24 +1,31 @@
 #ifndef CASERMA_HPP
 #define CASERMA_HPP
 
+#include "GestoreRisorse.hpp"
 #include "Personale.hpp"
 #include "Mezzo.hpp"
 #include "Missione.hpp"
 #include <vector>
-#include <memory>
 
 class Caserma {
 private:
-    std::vector<Personale> personale;
-    std::vector<Mezzo> mezzi;
-    std::vector<Missione> missioni;
+    Caserma() = default;
+    Caserma(const Caserma&) = delete;
+    Caserma& operator=(const Caserma&) = delete;
+
+    GestoreRisorse<Personale> personale;
+    GestoreRisorse<Mezzo> mezzi;
+    vector<Missione> missioni;
 
 public:
+    static Caserma& getInstance();
+
     void aggiungiPersonale(const Personale& p);
     void aggiungiMezzo(const Mezzo& m);
-    void creaMissione(const std::string& descrizione,
-                      const std::vector<int>& idPersonale,
-                      const std::vector<int>& idMezzi);
+
+    void creaMissione(const string& descrizione,
+                      const vector<int>& idPersonale,
+                      const vector<int>& idMezzi);
 
     void mostraPersonale() const;
     void mostraMezzi() const;

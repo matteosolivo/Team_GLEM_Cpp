@@ -6,15 +6,17 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Missione {
 private:
     int id;
-    std::string descrizione;
-    std::vector<Personale*> personaleAssegnato;
-    std::vector<Mezzo*> mezziAssegnati;
+    string descrizione;
+    vector<Personale*> personaleAssegnato;
+    vector<Mezzo*> mezziAssegnati;
 
 public:
-    Missione(int id, const std::string& descrizione);
+    Missione(int id, const string& descrizione);
 
     void assegnaPersonale(Personale* p);
     void assegnaMezzo(Mezzo* m);
