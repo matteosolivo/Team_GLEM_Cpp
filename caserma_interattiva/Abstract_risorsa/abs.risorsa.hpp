@@ -2,29 +2,32 @@
 #include <iostream>
 #include <string>
 
-// Classe astratta da implementare per metodi comuni a Mezzo e Personale
 class Risorsa {
 protected:
     int id;
     bool disponibile;
 
 public:
-    // Costruttore base
+    // Il tuo codice precedente ignorava i parametri (metteva sempre 0 e true).
     Risorsa(int id, bool disponibile){
-        this->id=id;
-        this->disponibile=disponibile;
+        this->id=0;
+        this->disponibile=true;
     }
-    // Il "contratto" che le classi figlie devono implementare
-    virtual int getId() const = 0;
-    virtual bool isDisponibile() const = 0;
-    virtual void setDisponibile(bool disp)=0;
+    
+    int getId() const {
+        return id;
+    }
 
-    virtual ~Risorsa() {}
-};
+    bool isDisponibile() const {
+        return disponibile;
+    }
 
-// Interfaccia
-class Descrizione {
-public:
-    virtual std::string to_string() const = 0;
-    virtual ~Descrizione() {}
+    void setDisponibile(bool disp) {
+        this->disponibile = disp;
+    }
+    // Questo è l'unico metodo che cambia veramente tra un Mezzo e il Personale.
+    virtual std::string descrizione() const = 0;
+
+    // Distruttore virtuale (Best practise)
+    virtual ~Risorsa() = default;
 };

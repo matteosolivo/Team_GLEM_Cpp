@@ -8,16 +8,12 @@ private:
 
 public:
     // Il costruttore deve ricevere i dati per la classe base
-    Mezzo(int id, bool disponibile, const std::string& tipo);
-
-    // Implementazione del Contratto di Risorsa
-    //Mezzo implementerà questi metodi
-    // La parola chiave 'override' è un controllo di sicurezza
-    int getId() const override;
-    bool isDisponibile() const override;
-    void setDisponibile(bool disp)override;
+    Mezzo(const std::string& tipo);
 
     //Metodo Specifico della classe Mezzo
+    std::string descrizione()const override{
+        getTipo();
+    }
     std::string getTipo() const;
 };
 
