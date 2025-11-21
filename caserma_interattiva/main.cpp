@@ -1,6 +1,7 @@
 #include "include/Caserma.hpp"
 #include <iostream>
 #include <limits>
+#include <fstream>
 
 void menu();
 Grado scegliGrado();
@@ -82,6 +83,21 @@ int main() {
                 caserma.mostraMissioni();
                 break;
 
+            case 7:{
+                std::ofstream output("Caserma.txt"); //crea il file se non è presente
+                if(!output){
+                    cout << "\nImpossibile aprire il file << endl;
+                    return 1;
+                }
+                
+                output << "\n============ CASERMA ============" << endl;
+                output << "------PERSONALE------" << endl;
+                output << "------MEZZI------" << endl;
+                output << "------MISSIONI------" << endl;
+
+                //COMPLETARE AD IMPLEMENTARE LA STAMPA SU FILE
+            }                               
+
             case 0:
                 cout << "Uscita...\n";
                 break;
@@ -103,6 +119,7 @@ void menu() {
     cout << "4. Mostra personale" << endl;
     cout << "5. Mostra mezzi" << endl;
     cout << "6. Mostra missioni" << endl;
+    cout << "7. Stampa resoconto Caserma su file txt" << endl;
     cout << "0. Esci" << endl;
 }
 
