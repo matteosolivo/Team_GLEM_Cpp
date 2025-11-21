@@ -24,19 +24,22 @@ void Caserma::creaMissione(const string& descrizione, const vector<int>& idPerso
 
     for (int id : idPersonale) {
         Personale* p = personale.getById(id);
-        if (!p || !p->isDisponibile()){
-            missione.assegnaPersonale(p);
+        if (p && p->isDisponibile()){
+            missione.assegnaPersonale(p); 
+            p->setDisponibile(false);
         }
-        p->setDisponibile(false);
+        else cout << "\nPersonale con l'Id: " << id << " non disponibile o non presente in Caserma" << endl; 
     }
 
     for (int id : idMezzi) {
         Mezzo* m = mezzi.getById(id);
-        if (!m || !m->isDisponibile()){
+        if (m && m->isDisponibile()){
             missione.assegnaMezzo(m);
             m->setDisponibile(false);
         }
+        else cout << "\nMezzo con l'Id: " << id << " non disponibile o non presente in Caserma" << endl;
     }
+    
     missioni.push_back(missione);
 }
 
