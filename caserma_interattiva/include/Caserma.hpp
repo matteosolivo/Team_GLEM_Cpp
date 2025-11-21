@@ -12,13 +12,14 @@ private:
     std::vector<Personale> personale;
     std::vector<Mezzo> mezzi;
     std::vector<Missione> missioni;
+    TipoMissione tipo;
 
 public:
     void aggiungiPersonale(const Personale& p);
     void aggiungiMezzo(const Mezzo& m);
     void creaMissione(const std::string& descrizione,
                       const std::vector<int>& idPersonale,
-                      const std::vector<int>& idMezzi);
+                      const std::vector<int>& idMezzi, TipoMissione t);
 
     void mostraPersonale() const;
     void mostraMezzi() const;

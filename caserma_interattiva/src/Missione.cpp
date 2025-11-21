@@ -1,8 +1,8 @@
-#include "../include/Missione.hpp"
+#include "Missione.hpp"
 #include <iostream>
 
-Missione::Missione(int id, const std::string& descrizione)
-    : id(id), descrizione(descrizione) {}
+Missione::Missione(int id, const std::string& descrizione, TipoMissione t)
+    : id(id), descrizione(descrizione), tipoMissione(t){}
 
 void Missione::assegnaPersonale(Personale* p) {
     personaleAssegnato.push_back(p);
@@ -16,6 +16,7 @@ void Missione::assegnaMezzo(Mezzo* m) {
 
 void Missione::mostraDettagli() const {
     std::cout << "=== Missione " << id << " ===\n";
+    std::cout << "Tipo di Missione: " << tipo << "\n";
     std::cout << "Descrizione: " << descrizione << "\n";
 
     std::cout << "Personale assegnato:\n";

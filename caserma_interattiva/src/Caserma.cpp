@@ -11,7 +11,7 @@ void Caserma::aggiungiMezzo(const Mezzo& m) {
 
 void Caserma::creaMissione(const std::string& descrizione,
                            const std::vector<int>& idPersonale,
-                           const std::vector<int>& idMezzi) {
+                           const std::vector<int>& idMezzi, TipoMissione t) {
     int id = missioni.size() + 1;
     Missione missione(id, descrizione);
 
@@ -26,7 +26,7 @@ void Caserma::creaMissione(const std::string& descrizione,
             if (m.getId() == idM && m.isDisponibile())
                 missione.assegnaMezzo(&m);
     }
-
+    this->tipo = t;
     missioni.push_back(missione);
 }
 
