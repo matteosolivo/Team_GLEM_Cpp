@@ -10,11 +10,14 @@ private:
 
 public:
     void aggiungiRisorsa(const T& r) {
+        bool esiste = false;
         for (const auto& esistente : risorse){
-            if (esistente.getId() == r.getId()){ // ECCEZIONE ?
-        risorse.push_back(r);
-            }
-        }
+            if (esistente.getId() == r.getId())
+                esiste = true;
+        } 
+        if(!esiste)
+            risorse.push_back(r);
+        else cout << "\nRisorsa con Id: " << r.getId() << "è già presente in Caserma" << endl;
     }
 
     bool esisteRisorsa(int id) const {
