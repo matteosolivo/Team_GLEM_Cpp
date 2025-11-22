@@ -84,7 +84,7 @@ void Caserma::mostraMissioni() const {
 }
 
 
-void StampaSuFile() const{
+void stampaSuFile() const{
     sdt::ofstream output("Caserma.txt");
     //eccezione controllo apertura corretta del file 
 
