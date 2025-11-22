@@ -39,6 +39,37 @@ void Caserma::creaMissione(const string& descrizione, const vector<int>& idPerso
         }
         else cout << "\nMezzo con l'Id: " << id << " non disponibile o non presente in Caserma" << endl;
     }
+
+    int numeroPiloti = 0;
+    for(auto& p : Personale){
+        if(p.isPilota() == true){
+            numeroPiloti++;
+        }
+    }
+
+    if(numeroPiloti < mezzi.length){
+            //eccezione + richiesta di inserire del personale pilota/cambiare le persone assegnateS? altrimenti il codice va avanti e può fare la pushback
+    }
+
+    this->tipo = t;
+    missioni.push_back(missione);
+}
+
+void Caserma::mostraPersonale() const {
+    std::cout << "\n--- Personale ---\n";
+    for (const auto& p : personale)
+        std::cout << p.getId() << " - " << p.getNome() << " (" << p.gradoToString()
+                  << ") [" << (p.isDisponibile() ? "Disponibile" : "In missione")
+                  << (p.isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
+}
+
+void Caserma::mostraMezzi() const {
+    std::cout << "\n--- Mezzi ---\n";
+    for (const auto& m : mezzi)
+        std::cout << m.getId() << " - " << m.getTipo()
+                  << " [" << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
+}
+
     
     missioni.push_back(missione);
 }
