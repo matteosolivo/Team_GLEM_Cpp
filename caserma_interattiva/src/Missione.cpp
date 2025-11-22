@@ -2,7 +2,7 @@
 #include <iostream>
 
 Missione::Missione(int id, const std::string& descrizione, TipoMissione t)
-    : id(id), descrizione(descrizione), tipoMissione(t){}
+    : id(id), descrizione(descrizione){}
 
 void Missione::assegnaPersonale(Personale* p) {
     personaleAssegnato.push_back(p);
@@ -12,6 +12,21 @@ void Missione::assegnaPersonale(Personale* p) {
 void Missione::assegnaMezzo(Mezzo* m) {
     mezziAssegnati.push_back(m);
     m->setDisponibile(false);
+}
+
+TipoMissione chooseTipoMissione(){
+    int scelta;
+    cout << "Scegli tipo Missione" << "\n";
+    cout << "1. Scorta\n2. Assalto\n3. Estrazione\n";
+    cout << "Scelta: ";
+    cin >> scelta;
+
+    switch(scelta){
+        case 1: return Missione::SCORTA;
+        case 2: return Missione::ASSALTO;
+        case 3: return Missione::ESTRAZIONE;
+        default : return Missione::SCORTA;
+    }
 }
 
 void Missione::mostraDettagli() const {
@@ -28,7 +43,11 @@ void Missione::mostraDettagli() const {
         std::cout << " - " << m->getTipo() << "\n";
 }
 
-void stampaDettagliSuFile(/*parametro file*/) const{
+void setTipoMissione(TipoMissione t){
+    this.tipo = t;
+}
+
+void stampaDettagliSuFile(std::ofstream& output) const{
     std::output << "=== Missione " << id << " ===\n";
     std::output << "Tipo di Missione: " << tipo << "\n";
     std::output << "Descrizione: " << descrizione << "\n";

@@ -5,6 +5,7 @@
 #include "Mezzo.hpp"
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -24,16 +25,19 @@ private:
 
 
 public:
-    Missione(int id, const std::string& descrizione, TipoMissione t);
+    Missione(int id, const std::string& descrizione);
 
 public:
     Missione(int id, const string& descrizione);
+    TipoMissione chooseTipoMissione()
+
+    void setTipoMissione(TipoMissione t);
 
     void assegnaPersonale(Personale* p);
     void assegnaMezzo(Mezzo* m);
 
     void mostraDettagli() const;
-    void stampaDettagliSuFile() const; //aggiungere il passaggio di file come parametro
+    void stampaDettagliSuFile(std::ofstream& output) const;
 };
 
 #endif

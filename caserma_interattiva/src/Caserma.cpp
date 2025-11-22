@@ -23,6 +23,9 @@ void Caserma::aggiungiMezzo(const Mezzo& m) {
 void Caserma::creaMissione(const string& descrizione, const vector<int>& idPersonale, const vector<int>& idMezzi) {
     Missione missione(missioni.size() + 1, descrizione);
 
+    TipoMissione t = missione.chooseTipoMissione();
+    missione.setTipoMissione(t);
+    
     for (int id : idPersonale) {
         Personale* p = personale.getById(id);
         if (p && p->isDisponibile()){
@@ -51,8 +54,6 @@ void Caserma::creaMissione(const string& descrizione, const vector<int>& idPerso
     if(numeroPiloti < mezzi.length){
             //eccezione + richiesta di inserire del personale pilota/cambiare le persone assegnateS? altrimenti il codice va avanti e può fare la pushback
     }
-
-    this->tipo = t;
     missioni.push_back(missione);
 }
 
@@ -71,10 +72,6 @@ void Caserma::mostraMezzi() const {
                   << " [" << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
 }
 
-    
-    missioni.push_back(missione);
-}
-
 void Caserma::mostraPersonale() const { personale.stampaTutte(); }
 void Caserma::mostraMezzi() const { mezzi.stampaTutte(); }
 void Caserma::mostraMissioni() const {
@@ -85,23 +82,23 @@ void Caserma::mostraMissioni() const {
 
 
 void stampaSuFile() const{
-    sdt::ofstream output("Caserma.txt");
+    std::ofstream fUscitaCaserma("Caserma.txt");
     //eccezione controllo apertura corretta del file 
 
-    output << "================ CASERMA ================" << std::endl;
+    fUscitaCaserma << "================ CASERMA ================" << std::endl;
     
-    output << "------------ PERSONALE ------------" << std::endl;
-    output << "  id  -  nome  -  grado" << std::endl;
+    fUscitaCaserma << "------------ PERSONALE ------------" << std::endl;
+    fUscitaCaserma << "  id  -  nome  -  grado" << std::endl;
     for (const auto& p : personale)
-        std::output << p.getId() << " - " << p.getNome() << " - " << p.getGrado() << std::endl;
+        std::fUscitaCaserma << p.getId() << " - " << p.getNome() << " - " << p.getGrado() << std::endl;
     
-    output << "------------ MEZZI ------------" << std::endl;
-    output << "  id  -  tipo" << std::endl;
+    fUscitaCaserma << "------------ MEZZI ------------" << std::endl;
+    fUscitaCaserma << "  id  -  tipo" << std::endl;
     for (const auto& m : mezzi)
-        std::output << m.getId() << " - " << m.getTipo() << std::endl;
+        std::fUscitaCaserma << m.getId() << " - " << m.getTipo() << std::endl;
     
-    output << "------------ MISSIONI ------------" << std::endl;
+    fUscitaCaserma << "------------ MISSIONI ------------" << std::endl;
     for (const auto& m : missioni){
-        m.stampaDettagliSuFile(/*riferimento al file aperto*/);
+        m.stampaDettagliSuFile(fUscitaCaserma);
     }   
 }

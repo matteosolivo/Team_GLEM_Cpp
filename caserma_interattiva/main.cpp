@@ -1,7 +1,6 @@
 #include "include/Caserma.hpp"
 #include <iostream>
 #include <limits>
-#include <fstream>
 
 void menu();
 Grado scegliGrado();
@@ -85,6 +84,7 @@ int main() {
 
             case 7:{
                 caserma.stampaSuFile();
+                break;
             }                               
 
             case 0:
