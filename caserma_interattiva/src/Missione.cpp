@@ -27,3 +27,17 @@ void Missione::mostraDettagli() const {
     for (auto m : mezziAssegnati)
         std::cout << " - " << m->getTipo() << "\n";
 }
+
+void stampaDettagliSuFile(/*parametro file*/) const{
+    std::output << "=== Missione " << id << " ===\n";
+    std::output << "Tipo di Missione: " << tipo << "\n";
+    std::output << "Descrizione: " << descrizione << "\n";
+
+    std::output << "Personale assegnato:\n";
+    for (auto p : personaleAssegnato)
+        std::output << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
+
+    std::output << "Mezzi assegnati:\n";
+    for (auto m : mezziAssegnati)
+        std::output << " - " << m->getTipo() << "\n";
+}
