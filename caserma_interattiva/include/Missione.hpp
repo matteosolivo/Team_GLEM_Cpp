@@ -33,7 +33,7 @@ public:
     void assegnaMezzo(Mezzo* m);
 
     void mostraDettagli() const;
-    void stampaDettagliSuFile() const;
+    void stampaDettagliSuFile() const; //aggiungere il passaggio di file come parametro
 };
 
 #endif
