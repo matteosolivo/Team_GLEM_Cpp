@@ -84,7 +84,7 @@ int main() {
                 break;
 
             case 7:{
-                caserma.stampaDettagliSuFile();
+                caserma.stampaSuFile();
             }                               
 
             case 0:
