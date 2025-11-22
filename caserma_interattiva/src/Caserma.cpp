@@ -102,6 +102,6 @@ void StampaSuFile() const{
     
     output << "------------ MISSIONI ------------" << std::endl;
     for (const auto& m : missioni){
-        m.stampaDettagliSuFile();
+        m.stampaDettagliSuFile(/*riferimento al file aperto*/);
     }   
 }
