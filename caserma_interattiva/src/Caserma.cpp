@@ -1,6 +1,7 @@
 #include "../include/Caserma.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
 
 Caserma& Caserma::getInstance() {
     static Caserma instance;
@@ -80,4 +81,27 @@ void Caserma::mostraMissioni() const {
     for (const auto& m : missioni){
         m.mostraDettagli();
     }
+}
+
+
+void StampaSuFile() const{
+    sdt::ofstream output("Caserma.txt");
+    //eccezione controllo apertura corretta del file 
+
+    output << "================ CASERMA ================" << std::endl;
+    
+    output << "------------ PERSONALE ------------" << std::endl;
+    output << "  id  -  nome  -  grado" << std::endl;
+    for (const auto& p : personale)
+        std::output << p.getId() << " - " << p.getNome() << " - " << p.getGrado() << std::endl;
+    
+    output << "------------ MEZZI ------------" << std::endl;
+    output << "  id  -  tipo" << std::endl;
+    for (const auto& m : mezzi)
+        std::output << m.getId() << " - " << m.getTipo() << std::endl;
+    
+    output << "------------ MISSIONI ------------" << std::endl;
+    for (const auto& m : missioni){
+        m.stampaDettagliSuFile();
+    }   
 }
