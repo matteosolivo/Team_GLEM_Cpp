@@ -30,7 +30,7 @@ public:
     void mostraPersonale() const;
     void mostraMezzi() const;
     void mostraMissioni() const;
-    void StampaSuFile() const;
+    void stampaSuFile() const;
 };
 
 #endif
