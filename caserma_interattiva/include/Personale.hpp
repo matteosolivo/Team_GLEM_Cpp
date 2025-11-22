@@ -18,6 +18,7 @@ private:
     std::string nome;
     Grado grado;
     bool disponibile;
+    bool pilota; //vero se è pilota, falso se non lo è.
 
 public:
     Personale(int id, const std::string& nome, Grado grado);
@@ -26,8 +27,10 @@ public:
     std::string getNome() const;
     Grado getGrado() const;
     bool isDisponibile() const;
+    bool isPilota();
 
-    void setDisponibile(bool disp);
+    void setDisponibile(bool d;isp);
+    void setPilota(bool pilota)
     std::string gradoToString() const;
 };
 
