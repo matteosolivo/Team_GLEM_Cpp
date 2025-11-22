@@ -84,18 +84,7 @@ int main() {
                 break;
 
             case 7:{
-                std::ofstream output("Caserma.txt"); //crea il file se non è presente
-                if(!output){
-                    cout << "\nImpossibile aprire il file << endl;
-                    return 1;
-                }
-                
-                output << "\n============ CASERMA ============" << endl;
-                output << "------PERSONALE------" << endl;
-                output << "------MEZZI------" << endl;
-                output << "------MISSIONI------" << endl;
-
-                //COMPLETARE AD IMPLEMENTARE LA STAMPA SU FILE
+                caserma.stampaDettagliSuFile();
             }                               
 
             case 0:
