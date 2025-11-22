@@ -1,30 +1,43 @@
 #include "../include/Caserma.hpp"
 #include <iostream>
+#include <stdexcept>
+
+Caserma& Caserma::getInstance() {
+    static Caserma instance;
+    return instance;
+}
 
 void Caserma::aggiungiPersonale(const Personale& p) {
-    personale.push_back(p);
+    if (personale.esisteRisorsa(p.getId())){
+        personale.aggiungiRisorsa(p);
+    }
 }
 
 void Caserma::aggiungiMezzo(const Mezzo& m) {
-    mezzi.push_back(m);
+    if (mezzi.esisteRisorsa(m.getId())){
+        mezzi.aggiungiRisorsa(m);
+    }
 }
 
-void Caserma::creaMissione(const std::string& descrizione,
-                           const std::vector<int>& idPersonale,
-                           const std::vector<int>& idMezzi, TipoMissione t) {
-    int id = missioni.size() + 1;
-    Missione missione(id, descrizione);
+void Caserma::creaMissione(const string& descrizione, const vector<int>& idPersonale, const vector<int>& idMezzi) {
+    Missione missione(missioni.size() + 1, descrizione);
 
-    for (int idP : idPersonale) {
-        for (auto& p : personale)
-            if (p.getId() == idP && p.isDisponibile())
-                missione.assegnaPersonale(&p);
+    for (int id : idPersonale) {
+        Personale* p = personale.getById(id);
+        if (p && p->isDisponibile()){
+            missione.assegnaPersonale(p); 
+            p->setDisponibile(false);
+        }
+        else cout << "\nPersonale con l'Id: " << id << " non disponibile o non presente in Caserma" << endl; 
     }
 
-    for (int idM : idMezzi) {
-        for (auto& m : mezzi)
-            if (m.getId() == idM && m.isDisponibile())
-                missione.assegnaMezzo(&m);
+    for (int id : idMezzi) {
+        Mezzo* m = mezzi.getById(id);
+        if (m && m->isDisponibile()){
+            missione.assegnaMezzo(m);
+            m->setDisponibile(false);
+        }
+        else cout << "\nMezzo con l'Id: " << id << " non disponibile o non presente in Caserma" << endl;
     }
 
     int numeroPiloti = 0;
@@ -57,8 +70,14 @@ void Caserma::mostraMezzi() const {
                   << " [" << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
 }
 
+    
+    missioni.push_back(missione);
+}
+
+void Caserma::mostraPersonale() const { personale.stampaTutte(); }
+void Caserma::mostraMezzi() const { mezzi.stampaTutte(); }
 void Caserma::mostraMissioni() const {
-    std::cout << "\n=== Elenco Missioni ===\n";
-    for (const auto& m : missioni)
+    for (const auto& m : missioni){
         m.mostraDettagli();
+    }
 }

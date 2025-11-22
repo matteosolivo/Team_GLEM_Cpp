@@ -1,9 +1,9 @@
 #ifndef PERSONALE_HPP
 #define PERSONALE_HPP
 
-#include <string>
+#include "Risorsa.hpp"
 
-enum class Grado {
+enum class Grado{
     SOLDATO,
     CAPORALE,
     SERGENTE,
@@ -12,19 +12,17 @@ enum class Grado {
     MAGGIORE
 };
 
-class Personale {
+class Personale: public Risorsa {
 private:
-    int id;
-    std::string nome;
+    string nome;
     Grado grado;
     bool disponibile;
     bool pilota; //vero se è pilota, falso se non lo è.
 
 public:
-    Personale(int id, const std::string& nome, Grado grado);
+    Personale(int id, const string& nome, Grado grado);
 
-    int getId() const;
-    std::string getNome() const;
+    string getNome() const;
     Grado getGrado() const;
     bool isDisponibile() const;
     bool isPilota();
@@ -32,6 +30,9 @@ public:
     void setDisponibile(bool d;isp);
     void setPilota(bool pilota)
     std::string gradoToString() const;
+
+    string gradoToString() const;
+    void getDescrizione() const override;
 };
 
 #endif

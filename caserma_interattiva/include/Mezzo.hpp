@@ -1,21 +1,17 @@
 #ifndef MEZZO_HPP
 #define MEZZO_HPP
 
-#include <string>
+#include "Risorsa.hpp"
 
-class Mezzo {
+class Mezzo : public Risorsa {
 private:
-    int id;
-    std::string tipo;
-    bool disponibile;
+    string tipo;
 
 public:
-    Mezzo(int id, const std::string& tipo);
+    Mezzo(int id, const string& tipo);
 
-    int getId() const;
-    std::string getTipo() const;
-    bool isDisponibile() const;
-    void setDisponibile(bool disp);
+    string getTipo() const;
+    void getDescrizione() const override;
 };
 
 #endif

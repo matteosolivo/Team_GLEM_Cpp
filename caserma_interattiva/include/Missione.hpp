@@ -26,6 +26,9 @@ private:
 public:
     Missione(int id, const std::string& descrizione, TipoMissione t);
 
+public:
+    Missione(int id, const string& descrizione);
+
     void assegnaPersonale(Personale* p);
     void assegnaMezzo(Mezzo* m);
 
