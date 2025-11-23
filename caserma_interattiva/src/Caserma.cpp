@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
+#include <cstring>
+using namespace std;
 
 Caserma& Caserma::getInstance() {
     static Caserma instance;
@@ -20,17 +22,12 @@ void Caserma::aggiungiMezzo(const Mezzo& m) {
     }
 }
 
-void Caserma::creaMissione(const string& descrizione, const vector<int>& idPersonale, const vector<int>& idMezzi) {
-    Missione missione(missioni.size() + 1, descrizione);
-
-    TipoMissione t = missione.chooseTipoMissione();
-    missione.setTipoMissione(t);
+bool isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<Personale>& personaleDisponibile, vector<Mezzo>& mezziDisponibili, TipoMissione tipo){
     
     for (int id : idPersonale) {
         Personale* p = personale.getById(id);
         if (p && p->isDisponibile()){
-            missione.assegnaPersonale(p); 
-            p->setDisponibile(false);
+            personaleDisponibile.push_back(p)
         }
         else cout << "\nPersonale con l'Id: " << id << " non disponibile o non presente in Caserma" << endl; 
     }
@@ -38,22 +35,70 @@ void Caserma::creaMissione(const string& descrizione, const vector<int>& idPerso
     for (int id : idMezzi) {
         Mezzo* m = mezzi.getById(id);
         if (m && m->isDisponibile()){
-            missione.assegnaMezzo(m);
-            m->setDisponibile(false);
+            mezziDisponibili.push_back(m)
         }
         else cout << "\nMezzo con l'Id: " << id << " non disponibile o non presente in Caserma" << endl;
     }
 
+    nMezzi = mezziDisponibili.length();
+    nPersonali = personaleDisponibile.length();
+    
+    //controllo piloti
     int numeroPiloti = 0;
-    for(auto& p : Personale){
+    for(auto& p : personaleDisponibile){
         if(p.isPilota() == true){
             numeroPiloti++;
         }
     }
-
-    if(numeroPiloti < mezzi.length){
-            //eccezione + richiesta di inserire del personale pilota/cambiare le persone assegnateS? altrimenti il codice va avanti e può fare la pushback
+    if(numeroPiloti < nMezzi){
+        return false;
     }
+    //controllo personale assegnato per mezzo (equipaggio): ogni mezzo min 2 pers, max 6 pers
+    if((nPersonale < 2*nMezzi) || (nPersonale > 6*nMezzi)){
+        return false;
+    }
+    
+    //controllo tipoMissione
+    if((tipo == SCORTA) && (nMezzi >= 3)){
+        return true;
+    } else {
+        return false;
+    }
+    
+    if((tipo == ASSALTO) && (static_cast<int>(nPersonale/5) == nMezzi)){
+        return true;
+    } else {
+        return false;
+    } 
+    
+    if((tipo == ESTRAZIONE) && (nPersonale >= 5)){
+        int mezziTerrestri = 0;
+        for(auto& mezzo : mezziDisponibili){
+            if((strcmp(mezzo.getTipo(), "Terrestre")) == 0){
+                mezziTerrestri++;
+            }
+        }
+        if(mezziTerrestri <= 2){
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+    
+}
+
+void Caserma::creaMissione(const string& descrizione, const vector<Personale>& personaleMissione, const vector<Mezzo>& mezziMissione, TipoMissione t) {
+    Missione missione(missioni.size() + 1, descrizione, t);
+    for (Personale p : personaleMissione) {
+        missione.assegnaPersonale(p);
+    }
+
+    for (Mezzo m: mezziMissione) {
+        missione.assegnaMezzo(p);
+    }
+
     missioni.push_back(missione);
 }
 

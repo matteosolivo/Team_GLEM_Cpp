@@ -23,14 +23,20 @@ public:
     void aggiungiPersonale(const Personale& p);
     void aggiungiMezzo(const Mezzo& m);
 
-    void creaMissione(const string& descrizione,
-                      const vector<int>& idPersonale,
-                      const vector<int>& idMezzi);
+    void Caserma::creaMissione(const string& descrizione, 
+        const vector<Personale>& personaleMissione, 
+        const vector<Mezzo>& mezziMissione,
+        TipoMissione t)
 
     void mostraPersonale() const;
     void mostraMezzi() const;
     void mostraMissioni() const;
     void stampaSuFile() const;
+    bool isMissioneValida(vector<int>& idPersonale,
+                            vector<int>& idMezzi,
+                            vector<Personale>& personaleDisponibile,
+                            vector<Mezzo>& mezziDisponibili, 
+                            TipoMissione tipo) const;
 };
 
 #endif

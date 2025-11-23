@@ -2,7 +2,7 @@
 #include <iostream>
 
 Missione::Missione(int id, const std::string& descrizione, TipoMissione t)
-    : id(id), descrizione(descrizione){}
+    : id(id), descrizione(descrizione), tipo(t){}
 
 void Missione::assegnaPersonale(Personale* p) {
     personaleAssegnato.push_back(p);
@@ -12,21 +12,6 @@ void Missione::assegnaPersonale(Personale* p) {
 void Missione::assegnaMezzo(Mezzo* m) {
     mezziAssegnati.push_back(m);
     m->setDisponibile(false);
-}
-
-TipoMissione chooseTipoMissione(){
-    int scelta;
-    cout << "Scegli tipo Missione" << "\n";
-    cout << "1. Scorta\n2. Assalto\n3. Estrazione\n";
-    cout << "Scelta: ";
-    cin >> scelta;
-
-    switch(scelta){
-        case 1: return Missione::SCORTA;
-        case 2: return Missione::ASSALTO;
-        case 3: return Missione::ESTRAZIONE;
-        default : return Missione::SCORTA;
-    }
 }
 
 void Missione::mostraDettagli() const {

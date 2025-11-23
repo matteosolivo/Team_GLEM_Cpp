@@ -65,8 +65,19 @@ int main() {
                 while (std::cin >> idm && idm != -1)
                     idMezzi.push_back(idm);
 
-                caserma.creaMissione(descrizione, idPersonale, idMezzi);
-                cout << "Missione creata!\n";
+                TipoMissione tipo = chooseTipoMissione();
+
+                if(tipo == 0){
+                    cout << "TIpo di missione non valida!\n";
+                } else {
+                    vector<Personale> personaleDisponibile;
+                    vector<Mezzi> mezziDisponibili;
+                    bool isMissioneValida = caserma.isMissioneValida(idPersonale, idMezzi, personaleDisponibile, mezziDisponibili, tipo);
+                    if(isMissioneValida){
+                        caserma.creaMissione(descrizione, personaleDisponibile, mezziDisponibili, tipo);
+                        cout << "Missione creata!\n";
+                    }
+                }
                 break;
             }
 
@@ -127,5 +138,20 @@ Grado scegliGrado() {
         case 5: return Grado::CAPITANO;
         case 6: return Grado::MAGGIORE;
         default: return Grado::SOLDATO;
+    }
+}
+
+TipoMissione chooseTipoMissione(){
+    int scelta;
+    cout << "Scegli tipo Missione" << "\n";
+    cout << "1. Scorta\n2. Assalto\n3. Estrazione\n";
+    cout << "Scelta: ";
+    cin >> scelta;
+
+    switch(scelta){
+        case 1: return Missione::SCORTA;
+        case 2: return Missione::ASSALTO;
+        case 3: return Missione::ESTRAZIONE;
+        default : return 0;
     }
 }
