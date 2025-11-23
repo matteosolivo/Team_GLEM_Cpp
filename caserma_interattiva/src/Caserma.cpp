@@ -2,7 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
-#include <cstring>
+#include <string>
+#include "Eccezioni.hpp"
 using namespace std;
 
 Caserma& Caserma::getInstance() {
@@ -28,16 +29,18 @@ bool isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<Per
         Personale* p = personale.getById(id);
         if (p && p->isDisponibile()){
             personaleDisponibile.push_back(p)
+        } else {
+            throw new ExceptionPersonale();
         }
-        else cout << "\nPersonale con l'Id: " << id << " non disponibile o non presente in Caserma" << endl; 
     }
 
     for (int id : idMezzi) {
         Mezzo* m = mezzi.getById(id);
         if (m && m->isDisponibile()){
             mezziDisponibili.push_back(m)
+        } else {
+            throw new ExceptionMezzi();
         }
-        else cout << "\nMezzo con l'Id: " << id << " non disponibile o non presente in Caserma" << endl;
     }
 
     nMezzi = mezziDisponibili.length();

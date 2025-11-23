@@ -1,6 +1,7 @@
 #include "include/Caserma.hpp"
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 
 void menu();
 Grado scegliGrado();
@@ -13,7 +14,7 @@ int main() {
         menu();
         cout << "\nScelta: ";
         cin >> scelta;
-
+        
         if (std::cin.fail()) {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -50,33 +51,52 @@ int main() {
                 cout << "Descrizione missione: ";
                 cin.ignore();
                 getline(std::cin, descrizione);
+                if(descrizione.length() == 0){
+                    cout << "Non hai inserito nessuna descrizione. Descrizione standard: Nessuna descrizione fornita\n";
+                    strcpy(descrizione, "Nessuna descrizione fornita.")
+                }
 
                 caserma.mostraPersonale();
                 cout << "Inserisci ID del personale da assegnare (termina con -1): ";
                 vector<int> idPersonale;
                 int idp;
-                while (std::cin >> idp && idp != -1)
-                    idPersonale.push_back(idp);
+                try{
+                    while (std::cin >> idp && idp != -1)
+                        idPersonale.push_back(idp);
+                }catch(const std::invalid_argument& e){
+                    std::cout << "Errore: tipo di dato inserito sbagliato!\n";
+                }
 
                 caserma.mostraMezzi();
                 cout << "Inserisci ID dei mezzi da assegnare (termina con -1): ";
                 vector<int> idMezzi;
                 int idm;
-                while (std::cin >> idm && idm != -1)
-                    idMezzi.push_back(idm);
+                try{
+                    while (std::cin >> idm && idm != -1)
+                        idMezzi.push_back(idm);
+                }catch(const std::invalid_argument& e){
+                    std::cout << "Errore: tipo di dato inserito sbagliato!\n";
+                }
 
                 TipoMissione tipo = chooseTipoMissione();
 
                 if(tipo == 0){
                     cout << "TIpo di missione non valida!\n";
                 } else {
-                    vector<Personale> personaleDisponibile;
-                    vector<Mezzi> mezziDisponibili;
-                    bool isMissioneValida = caserma.isMissioneValida(idPersonale, idMezzi, personaleDisponibile, mezziDisponibili, tipo);
-                    if(isMissioneValida){
-                        caserma.creaMissione(descrizione, personaleDisponibile, mezziDisponibili, tipo);
-                        cout << "Missione creata!\n";
+                    try{
+                        vector<Personale> personaleDisponibile;
+                        vector<Mezzi> mezziDisponibili;
+                        bool isMissioneValida = caserma.isMissioneValida(idPersonale, idMezzi, personaleDisponibile, mezziDisponibili, tipo);
+                        if(isMissioneValida){
+                            caserma.creaMissione(descrizione, personaleDisponibile, mezziDisponibili, tipo);
+                            cout << "Missione creata!\n";
+                        }
+                    }catch(ExceptionPersonale e){
+                        e.showMessageP("Personale non presente in caserma o non disponibile");
+                    }catch(ExceptionMezzo e){
+                        e.showMessageM("Mezzo non presente in caserma o non disponibile");
                     }
+                    
                 }
                 break;
             }

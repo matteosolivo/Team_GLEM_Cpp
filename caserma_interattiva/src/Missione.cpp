@@ -21,11 +21,11 @@ void Missione::mostraDettagli() const {
 
     std::cout << "Personale assegnato:\n";
     for (auto p : personaleAssegnato)
-        std::cout << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
+        p.getDescrizione();
 
     std::cout << "Mezzi assegnati:\n";
     for (auto m : mezziAssegnati)
-        std::cout << " - " << m->getTipo() << "\n";
+        m.getDescrizione();
 }
 
 void setTipoMissione(TipoMissione t){
