@@ -3,6 +3,8 @@
 
 #include "Risorsa.hpp"
 
+using namespace std;
+
 class Mezzo : public Risorsa {
 private:
     string tipo;

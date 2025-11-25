@@ -1,10 +1,8 @@
-#include "include/Caserma.hpp"
+#include "../include/Caserma.hpp"
+#include "../include/Eccezioni.hpp"
 #include <iostream>
 #include <limits>
 #include <stdexcept>
-
-void menu();
-Grado scegliGrado();
 
 int main() {
     Caserma& caserma = Caserma::getInstance();
@@ -30,8 +28,7 @@ int main() {
                 getline(std::cin, nome);
                 Grado grado = scegliGrado();
                 int id = rand() % 1000 + 1;  // ID casuale. Controllo inserimento su GestoreRisorse.hpp
-                caserma.aggiungiPersonale(Personale(id, nome, grado));
-                cout << "Personale aggiunto con ID " << id << "\n";
+                caserma.aggiungiPersonale(make_shared<Personale>(id, nome, grado));
                 break;
             }
 
@@ -41,19 +38,18 @@ int main() {
                 cin.ignore();
                 getline(std::cin, tipo);
                 int id = rand() % 1000 + 1; // ID casuale. Controllo inserimento su GestoreRisorse.hpp
-                caserma.aggiungiMezzo(Mezzo(id, tipo));
+                caserma.aggiungiMezzo(make_shared<Mezzo>(id, tipo));
                 cout << "Mezzo aggiunto con ID " << id << "\n";
                 break;
             }
 
             case 3: {
                 string descrizione;
-                cout << "Descrizione missione: ";
+                cout << "Descrizione missione: (default: Nessuna descrizione fornita) ";
                 cin.ignore();
                 getline(std::cin, descrizione);
                 if(descrizione.length() == 0){
-                    cout << "Non hai inserito nessuna descrizione. Descrizione standard: Nessuna descrizione fornita\n";
-                    strcpy(descrizione, "Nessuna descrizione fornita.")
+                    descrizione = "Nessuna descrizione fornita.";
                 }
 
                 caserma.mostraPersonale();
@@ -61,6 +57,7 @@ int main() {
                 vector<int> idPersonale;
                 int idp;
                 try{
+                    // ne inserisce uno alla volta fino a che non inserisce -1
                     while (std::cin >> idp && idp != -1)
                         idPersonale.push_back(idp);
                 }catch(const std::invalid_argument& e){
@@ -72,6 +69,7 @@ int main() {
                 vector<int> idMezzi;
                 int idm;
                 try{
+                    // ne inserisce uno alla volta fino a che non inserisce -1
                     while (std::cin >> idm && idm != -1)
                         idMezzi.push_back(idm);
                 }catch(const std::invalid_argument& e){
@@ -80,24 +78,22 @@ int main() {
 
                 TipoMissione tipo = chooseTipoMissione();
 
-                if(tipo == 0){
-                    cout << "TIpo di missione non valida!\n";
-                } else {
-                    try{
-                        vector<Personale> personaleDisponibile;
-                        vector<Mezzi> mezziDisponibili;
-                        bool isMissioneValida = caserma.isMissioneValida(idPersonale, idMezzi, personaleDisponibile, mezziDisponibili, tipo);
-                        if(isMissioneValida){
-                            caserma.creaMissione(descrizione, personaleDisponibile, mezziDisponibili, tipo);
-                            cout << "Missione creata!\n";
-                        }
-                    }catch(ExceptionPersonale e){
-                        e.showMessageP("Personale non presente in caserma o non disponibile");
-                    }catch(ExceptionMezzo e){
-                        e.showMessageM("Mezzo non presente in caserma o non disponibile");
+                try {
+                    vector<shared_ptr<Personale>> personaleDisponibile;
+                    vector<shared_ptr<Mezzo>> mezziDisponibili;
+                    bool isMissioneValida = caserma.isMissioneValida(idPersonale, idMezzi, personaleDisponibile, mezziDisponibili, tipo);
+                    
+                    if(isMissioneValida) {
+                        caserma.creaMissione(descrizione, personaleDisponibile, mezziDisponibili, tipo);
+                        cout << "Missione creata!\n";
                     }
                     
+                } catch(ExceptionPersonale e) {
+                    e.showMessageP("Personale non presente in caserma o non disponibile");
+                } catch(ExceptionMezzo e) {
+                    e.showMessageM("Mezzo non presente in caserma o non disponibile");
                 }
+                    
                 break;
             }
 
@@ -145,7 +141,7 @@ void menu() {
 
 Grado scegliGrado() {
     int g;
-    cout << "Scegli grado:\n";
+    cout << "Scegli grado: (default: Soldato)\n";
     cout << "1. Soldato\n2. Caporale\n3. Sergente\n4. Tenente\n5. Capitano\n6. Maggiore\n";
     cout << "Scelta: ";
     cin >> g;
@@ -162,16 +158,16 @@ Grado scegliGrado() {
 }
 
 TipoMissione chooseTipoMissione(){
-    int scelta;
-    cout << "Scegli tipo Missione" << "\n";
+    int sceltaTipoMissione;
+    cout << "Scegli tipo Missione: (default: Scorta)\n";
     cout << "1. Scorta\n2. Assalto\n3. Estrazione\n";
     cout << "Scelta: ";
-    cin >> scelta;
+    cin >> sceltaTipoMissione;
 
-    switch(scelta){
-        case 1: return Missione::SCORTA;
-        case 2: return Missione::ASSALTO;
-        case 3: return Missione::ESTRAZIONE;
-        default : return 0;
+    switch(sceltaTipoMissione){
+        case 1: return TipoMissione::SCORTA;
+        case 2: return TipoMissione::ASSALTO;
+        case 3: return TipoMissione::ESTRAZIONE;
+        default : return TipoMissione::SCORTA;
     }
 }

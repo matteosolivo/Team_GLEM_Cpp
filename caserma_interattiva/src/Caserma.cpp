@@ -1,9 +1,13 @@
-#include "../include/Caserma.hpp"
 #include <iostream>
+#include <string>
 #include <stdexcept>
 #include <fstream>
-#include <string>
-#include "Eccezioni.hpp"
+#include <memory>
+
+#include "../include/Caserma.hpp"
+#include "../include/Missione.hpp"
+#include "../include/Eccezioni.hpp"
+
 using namespace std;
 
 Caserma& Caserma::getInstance() {
@@ -11,142 +15,163 @@ Caserma& Caserma::getInstance() {
     return instance;
 }
 
-void Caserma::aggiungiPersonale(const Personale& p) {
-    if (personale.esisteRisorsa(p.getId())){
-        personale.aggiungiRisorsa(p);
+void Caserma::aggiungiPersonale(const shared_ptr<Personale>& p) {
+    if(personale.aggiungiRisorsa(p)){
+        cout << "\nPersonale aggiunto con ID: " << p->getId();
+    } else {
+        cout << "\nPersonale con ID: " << p->getId() << " è già presente nella Caserma" << endl;
     }
 }
 
-void Caserma::aggiungiMezzo(const Mezzo& m) {
-    if (mezzi.esisteRisorsa(m.getId())){
-        mezzi.aggiungiRisorsa(m);
+void Caserma::aggiungiMezzo(const shared_ptr<Mezzo>& m) {
+    if(mezzi.aggiungiRisorsa(m)){
+        cout << "\nMezzo aggiunto con ID: " << m->getId();
+    } else {
+        cout << "\nMezzo con ID: " << m->getId() << " è già presente nella Caserma" << endl;
     }
 }
 
-bool isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<Personale>& personaleDisponibile, vector<Mezzo>& mezziDisponibili, TipoMissione tipo){
+// il for non può ciclare "personale" perchè è shared_ptr<T> quindi lo trasformo con una funzione (GestoreRisorse::getRisorse()) che ritorna un vettore
+void Caserma::mostraPersonale() const {
+    cout << "\n--- Personale ---\n";
+    for (const auto& p : personale.getRisorse())
+        cout << p->getId() << " - "
+        << p->getNome() << " ("
+        << p->gradoToString() << ") ["
+        << (p->isDisponibile() ? "Disponibile" : "In missione")
+        << (p->isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
+}
+
+bool Caserma::isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<shared_ptr<Personale>>& personaleDisponibile, vector<shared_ptr<Mezzo>>& mezziDisponibili, TipoMissione tipo){
     
     for (int id : idPersonale) {
-        Personale* p = personale.getById(id);
-        if (p && p->isDisponibile()){
-            personaleDisponibile.push_back(p)
+        shared_ptr<Personale> persona = personale.getById(id);
+
+        if (persona && persona->isDisponibile()){
+            personaleDisponibile.push_back(persona);
         } else {
-            throw new ExceptionPersonale();
+            throw ExceptionPersonale();
         }
     }
 
     for (int id : idMezzi) {
-        Mezzo* m = mezzi.getById(id);
-        if (m && m->isDisponibile()){
-            mezziDisponibili.push_back(m)
+        shared_ptr<Mezzo> mezzo = mezzi.getById(id);
+
+        if (mezzo && mezzo->isDisponibile()){
+            mezziDisponibili.push_back(mezzo);
         } else {
-            throw new ExceptionMezzi();
+            throw ExceptionPersonale();
         }
     }
 
-    nMezzi = mezziDisponibili.length();
-    nPersonali = personaleDisponibile.length();
+    int nMezzi = mezziDisponibili.size();
+    int nPersonale = personaleDisponibile.size();
     
-    //controllo piloti
+    // CONTA QUANTI PILOTI CI SONO IN QUESTA MISSIONE
     int numeroPiloti = 0;
     for(auto& p : personaleDisponibile){
-        if(p.isPilota() == true){
+        if(p->isPilota() == true){
             numeroPiloti++;
         }
     }
+
+    // ALMENO UN PILOTA PER MEZZO
     if(numeroPiloti < nMezzi){
         return false;
     }
-    //controllo personale assegnato per mezzo (equipaggio): ogni mezzo min 2 pers, max 6 pers
-    if((nPersonale < 2*nMezzi) || (nPersonale > 6*nMezzi)){
+
+    // CONTROLLO EQUIPAGGIO PER OGNI MEZZO: PER OGNI MEZZO: MIN 2, MAX 6 PERSONE
+    if((nPersonale < 2 * nMezzi) || (nPersonale > 6 * nMezzi)){
         return false;
     }
     
-    //controllo tipoMissione
-    if((tipo == SCORTA) && (nMezzi >= 3)){
-        return true;
-    } else {
-        return false;
-    }
-    
-    if((tipo == ASSALTO) && (static_cast<int>(nPersonale/5) == nMezzi)){
-        return true;
-    } else {
-        return false;
-    } 
-    
-    if((tipo == ESTRAZIONE) && (nPersonale >= 5)){
-        int mezziTerrestri = 0;
-        for(auto& mezzo : mezziDisponibili){
-            if((strcmp(mezzo.getTipo(), "Terrestre")) == 0){
-                mezziTerrestri++;
+    switch (tipo) { 
+        case TipoMissione::SCORTA:
+            return nMezzi >= 3;
+
+        case TipoMissione::ASSALTO:
+            return nMezzi <= (nPersonale / 5);
+
+        case TipoMissione::ESTRAZIONE:
+            int mezziTerrestri = 0;
+            for (auto& mezzo : mezziDisponibili) {
+                string tipo = mezzo->getTipo();
+
+            // CONTROLLO SCRITTA "TERRESTRE" CASE UNSENSITIVE
+            for (auto& c : tipo){
+                c = toupper(c);
             }
-        }
-        if(mezziTerrestri <= 2){
+                if (tipo == "TERRESTRE") {
+                    mezziTerrestri++;
+                }
+            }
+            
+            return (mezziTerrestri >= 2 && nPersonale >= 5);
+        default:
             return false;
-        } else {
-            return true;
-        }
-    } else {
-        return false;
     }
-    
 }
 
-void Caserma::creaMissione(const string& descrizione, const vector<Personale>& personaleMissione, const vector<Mezzo>& mezziMissione, TipoMissione t) {
-    Missione missione(missioni.size() + 1, descrizione, t);
-    for (Personale p : personaleMissione) {
-        missione.assegnaPersonale(p);
+// CREAZIONE DELLA MISSIONE
+void Caserma::creaMissione(const string& descrizione, const vector<shared_ptr<Personale>>& personaleMissione, const vector<shared_ptr<Mezzo>>& mezziMissione, TipoMissione tipo) {
+    shared_ptr<Missione> missione = make_shared<Missione>(missioni.size() + 1, descrizione, tipo);
+    for (auto p : personaleMissione) {
+        missione->assegnaPersonale(p);
     }
 
-    for (Mezzo m: mezziMissione) {
-        missione.assegnaMezzo(p);
+    for (auto m: mezziMissione) {
+        missione->assegnaMezzo(m);
     }
 
     missioni.push_back(missione);
 }
 
+// il for non può ciclare "personale" perchè è shared_ptr<T> quindi lo trasformo con una funzione (GestoreRisorse::getRisorse()) che ritorna un vettore
 void Caserma::mostraPersonale() const {
-    std::cout << "\n--- Personale ---\n";
-    for (const auto& p : personale)
-        std::cout << p.getId() << " - " << p.getNome() << " (" << p.gradoToString()
-                  << ") [" << (p.isDisponibile() ? "Disponibile" : "In missione")
-                  << (p.isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
+    cout << "\n--- Personale ---\n";
+    for (const auto& p : personale.getRisorse())
+        cout << p->getId() << " - "
+        << p->getNome() << " ("
+        << p->gradoToString() << ") ["
+        << (p->isDisponibile() ? "Disponibile" : "In missione")
+        << (p->isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
 }
 
+// il for non può ciclare "mezzi" perchè è shared_ptr<T> quindi lo trasformo con una funzione (GestoreRisorse::getRisorse()) che ritorna un vettore
 void Caserma::mostraMezzi() const {
-    std::cout << "\n--- Mezzi ---\n";
-    for (const auto& m : mezzi)
-        std::cout << m.getId() << " - " << m.getTipo()
-                  << " [" << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
+    cout << "\n--- Mezzi ---\n";
+    for (const auto& m : mezzi.getRisorse())
+        cout << m->getId() << " - "
+        << m->getTipo() << " ["
+        << (m->isDisponibile() ? "Disponibile" : "In missione") << "]\n";
 }
 
-void Caserma::mostraPersonale() const { personale.stampaTutte(); }
-void Caserma::mostraMezzi() const { mezzi.stampaTutte(); }
 void Caserma::mostraMissioni() const {
     for (const auto& m : missioni){
-        m.mostraDettagli();
+        m->mostraDettagli();
     }
 }
 
-
-void stampaSuFile() const{
-    std::ofstream fUscitaCaserma("Caserma.txt");
+void Caserma::stampaSuFile() {
+    ofstream fUscitaCaserma("Caserma.txt");
     //eccezione controllo apertura corretta del file 
 
-    fUscitaCaserma << "================ CASERMA ================" << std::endl;
+    fUscitaCaserma << "================ CASERMA ================" << endl;
     
-    fUscitaCaserma << "------------ PERSONALE ------------" << std::endl;
-    fUscitaCaserma << "  id  -  nome  -  grado" << std::endl;
-    for (const auto& p : personale)
-        std::fUscitaCaserma << p.getId() << " - " << p.getNome() << " - " << p.getGrado() << std::endl;
-    
-    fUscitaCaserma << "------------ MEZZI ------------" << std::endl;
-    fUscitaCaserma << "  id  -  tipo" << std::endl;
-    for (const auto& m : mezzi)
-        std::fUscitaCaserma << m.getId() << " - " << m.getTipo() << std::endl;
-    
-    fUscitaCaserma << "------------ MISSIONI ------------" << std::endl;
+    fUscitaCaserma << "------------ PERSONALE ------------" << endl;
+    fUscitaCaserma << "  id  -  nome  -  grado" << endl;
+    for (const auto& p : personale.getRisorse()) {
+        fUscitaCaserma << p->getId() << " - " << p->getNome() << " - " << p->gradoToString() << endl;
+    }
+
+    fUscitaCaserma << "------------ MEZZI ------------" << endl;
+    fUscitaCaserma << "  id  -  tipo" << endl;
+    for (const auto& m : mezzi.getRisorse()) {
+        fUscitaCaserma << m->getId() << " - " << m->getTipo() << endl;
+    }
+
+    fUscitaCaserma << "------------ MISSIONI ------------" << endl;
     for (const auto& m : missioni){
-        m.stampaDettagliSuFile(fUscitaCaserma);
+        m->stampaDettagliSuFile(fUscitaCaserma);
     }   
 }

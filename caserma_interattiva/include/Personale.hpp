@@ -3,6 +3,8 @@
 
 #include "Risorsa.hpp"
 
+using namespace std;
+
 enum class Grado{
     SOLDATO,
     CAPORALE,
@@ -17,21 +19,24 @@ private:
     string nome;
     Grado grado;
     bool disponibile;
-    bool pilota; //vero se è pilota, falso se non lo è.
+    bool pilota; // vero se è pilota, falso se non lo è.
 
 public:
-    Personale(int id, const string& nome, Grado grado);
+    Personale(int id, const string &nome, Grado grado, bool pilota);
+
+    int getId() const;
 
     string getNome() const;
-    Grado getGrado() const;
+
     bool isDisponibile() const;
+    void setDisponibile(bool disp);
+
     bool isPilota();
-
-    void setDisponibile(bool d;isp);
-    void setPilota(bool pilota)
-    std::string gradoToString() const;
-
+    void setPilota(bool pilota);
+    
+    Grado getGrado() const;
     string gradoToString() const;
+
     void getDescrizione() const override;
 };
 

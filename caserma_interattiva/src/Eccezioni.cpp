@@ -1,4 +1,5 @@
-#include "Eccezioni.hpp"
+#include "../include/Eccezioni.hpp"
+
 using namespace std;
 
 void showMessageP(string message){

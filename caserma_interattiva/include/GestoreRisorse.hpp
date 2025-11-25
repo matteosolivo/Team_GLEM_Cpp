@@ -3,33 +3,40 @@
 
 #include <vector>
 
+using namespace std;
+
 template <typename T>
 class GestoreRisorse {
 private:
-    vector<T> risorse;
+    vector<shared_ptr<T>> risorse;
 
 public:
-    void aggiungiRisorsa(const T& r) {
-        bool esiste = false;
-        for (const auto& esistente : risorse){
-            if (esistente.getId() == r.getId())
-                esiste = true;
-        } 
-        if(!esiste)
-            risorse.push_back(r);
-        else cout << "\nRisorsa con Id: " << r.getId() << "è già presente in Caserma" << endl;
-    }
-
+    // return false -> se non esiste
+    // return true -> se esiste
     bool esisteRisorsa(int id) const {
         for (const auto& r : risorse){
-            if (r.getId() == id){
-                return true;
+            if (r->getId() == id){ return true; }
+        }
         return false;
-            }
+    }
+
+    // AGGIUNGE UNA RISORSA AL RISPETTIVO VETTORE RICHIAMANDO IL CONTROLLO DEL DUPLICATO
+    bool aggiungiRisorsa(const T& r) {
+        if(esisteRisorsa(r->getId())) {
+            return false;
+        } else {
+            risorse.push_back(r);
+            return true;
         }
     }
 
-    T* getById(int id) {
+    // RITORNA UN VETTORE DI OGGETTI. UTILE PER LA STAMPA
+    const vector<T>& getRisorse() const {
+        return vectorRisorse;
+    }
+
+    // RITORNA nullptr SE NON TROVA NULLA
+    T& getById(int id) {
         for (auto& r : risorse){
             if (r.getId() == id){
                 return &r;
@@ -38,11 +45,6 @@ public:
         }
     }
 
-    void stampaTutte() const {
-        for (const auto& r : risorse){
-            r.stampa();
-        }
-    }
 };
 
 #endif
