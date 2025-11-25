@@ -3,8 +3,6 @@
 
 #include "Risorsa.hpp"
 
-using namespace std;
-
 class Mezzo : public Risorsa {
 private:
     string tipo;
@@ -12,7 +10,7 @@ private:
 public:
     Mezzo(int id, const string& tipo);
 
-    string getTipo() const;
+    string getTipo() const { return tipo; }
     void getDescrizione() const override;
 };
 

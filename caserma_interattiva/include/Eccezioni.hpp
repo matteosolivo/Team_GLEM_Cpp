@@ -1,15 +1,19 @@
+// Eccezioni.hpp
+#ifndef ECCEZIONI_HPP
+#define ECCEZIONI_HPP
+
 #include <iostream>
 #include <string>
 
-using namespace std;
 
-class ExceptionPersonale{
-    public:
-        void showMessageP(string message);
-
+class ExceptionPersonale {
+public:
+    void showMessageP(const std::string& msg);
 };
 
-class ExceptionMezzo{
-    public:
-        void showMessageM(string message);
+class ExceptionMezzo {
+public:
+    void showMessageM(const std::string& msg);
 };
+
+#endif

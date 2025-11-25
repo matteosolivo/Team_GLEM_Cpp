@@ -1,7 +1,7 @@
 #include "../include/Personale.hpp"
 
 Personale::Personale(int id, const std::string& nome, Grado grado, bool pilota)
-    : Risorsa(id), nome(nome), grado(grado), disponibile(true), pilota(pilota){};
+    : Risorsa(id), nome(nome), grado(grado), pilota(pilota){};
 
 int Personale::getId() const { return id; }
 
@@ -9,9 +9,6 @@ string Personale::getNome() const { return nome; }
 
 bool Personale::isDisponibile() const { return disponibile; }
 void Personale::setDisponibile(bool disp) { disponibile = disp; }
-
-bool Personale::isPilota(){ return pilota; }
-void Personale::setPilota(bool pilota){ this->pilota = pilota; }
 
 Grado Personale::getGrado() const { return grado; }
 string Personale::gradoToString() const {
@@ -25,6 +22,9 @@ string Personale::gradoToString() const {
         default: return "Sconosciuto";
     }
 }
+
+bool Personale::isPilota(){ return pilota; }
+void Personale::setPilota(bool pilota){ this->pilota = pilota; }
 
 void Personale::getDescrizione() const {
     cout << id << " - "

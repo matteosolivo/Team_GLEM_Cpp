@@ -13,16 +13,13 @@ protected:
 
 public:
     // COSTRUTTORE
-    Risorsa(int id){
-        this->id = id;
-        this->disponibile = true;
-    }
+    Risorsa(int id) : id(id), disponibile(true) {}
     // DISTRUTTORE
     virtual ~Risorsa() = default;
     
     int getId() const { return id; }
-    bool isDisponibile() const { return disponibile; }
 
+    bool isDisponibile() const { return disponibile; }
     void setDisponibile(bool disp) { disponibile = disp; }
     
     // METODI DA FAR IMPLEMENTARE ALLE SINGOLE CLASSI Mezzo.cpp, Personale.cpp, ...

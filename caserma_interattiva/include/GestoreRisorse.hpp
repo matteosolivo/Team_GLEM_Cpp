@@ -8,7 +8,7 @@ using namespace std;
 template <typename T>
 class GestoreRisorse {
 private:
-    vector<shared_ptr<T>> risorse;
+    vector<T> risorse;
 
 public:
     // return false -> se non esiste
@@ -31,18 +31,16 @@ public:
     }
 
     // RITORNA UN VETTORE DI OGGETTI. UTILE PER LA STAMPA
-    const vector<T>& getRisorse() const {
-        return vectorRisorse;
-    }
+    const vector<T>& getRisorse() const { return risorse; }
 
     // RITORNA nullptr SE NON TROVA NULLA
-    T& getById(int id) {
-        for (auto& r : risorse){
-            if (r.getId() == id){
-                return &r;
+    T getById(int id) const {
+        for (const auto& r : risorse){
+            if (r->getId() == id){
+                return r;
             }
-        return nullptr;
         }
+        return T(nullptr);
     }
 
 };

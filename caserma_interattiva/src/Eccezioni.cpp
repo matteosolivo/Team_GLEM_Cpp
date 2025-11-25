@@ -1,11 +1,13 @@
+#include <iostream>
+
 #include "../include/Eccezioni.hpp"
 
 using namespace std;
 
-void showMessageP(string message){
-    cout << "ERRORE: " << message << "\n";
+void ExceptionPersonale::showMessageP(const string& message){
+    cerr << "ERRORE: " << message << endl;
 }
 
-void showMessageM(string message){
-    cout << "ERRORE: " << message << "\n";
+void ExceptionMezzo::showMessageM(const string& message){
+    cerr << "ERRORE: " << message << endl;
 }

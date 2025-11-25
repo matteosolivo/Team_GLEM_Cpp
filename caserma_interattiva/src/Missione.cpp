@@ -10,12 +10,12 @@ Missione::Missione(int id, const string& descrizione, TipoMissione tipo)
     : id(id), descrizione(descrizione), tipo(tipo){}
 
 void Missione::assegnaPersonale(shared_ptr<Personale>& p) {
-    personaleAssegnato.push_back(p);
+    personaleAssegnato.aggiungiRisorsa(p);
     p->setDisponibile(false);
 }
 
 void Missione::assegnaMezzo(shared_ptr<Mezzo>& m) {
-    mezziAssegnati.push_back(m);
+    mezziAssegnati.aggiungiRisorsa(m);
     m->setDisponibile(false);
 }
 
@@ -34,12 +34,12 @@ void Missione::mostraDettagli() const {
     cout << "Descrizione: " << descrizione << "\n";
 
     cout << "Personale assegnato:\n";
-    for (auto p : personaleAssegnato)
-        p.getDescrizione();
+    for (auto p : personaleAssegnato.getRisorse())
+        p->getDescrizione();
 
     cout << "Mezzi assegnati:\n";
-    for (auto m : mezziAssegnati)
-        m.getDescrizione();
+    for (auto m : mezziAssegnati.getRisorse())
+        m->getDescrizione();
 }
 
 void Missione::setTipoMissione(TipoMissione t){
@@ -52,10 +52,10 @@ void Missione::stampaDettagliSuFile(ofstream& output) const{
     output << "Descrizione: " << descrizione << "\n";
 
     output << "Personale assegnato:\n";
-    for (auto p : personaleAssegnato)
-        output << " - " << p.getNome() << " (" << p.gradoToString() << ")\n";
+    for (auto p : personaleAssegnato.getRisorse())
+        output << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
 
     output << "Mezzi assegnati:\n";
-    for (auto m : mezziAssegnati)
-        output << " - " << m.getTipo() << "\n";
+    for (auto m : mezziAssegnati.getRisorse())
+        output << " - " << m->getTipo() << "\n";
 }

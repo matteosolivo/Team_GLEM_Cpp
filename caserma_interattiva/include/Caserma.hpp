@@ -29,10 +29,10 @@ public:
     void aggiungiPersonale(const shared_ptr<Personale>& p);
     void aggiungiMezzo(const shared_ptr<Mezzo>& m);
 
-    void Caserma::creaMissione(const string& descrizione, 
-                                const vector<shared_ptr<Personale>>& personaleMissione, 
-                                const vector<shared_ptr<Mezzo>>& mezziMissione,
-                                TipoMissione t);
+    void creaMissione(const string& descrizione, 
+                        const vector<shared_ptr<Personale>>& personaleMissione, 
+                        const vector<shared_ptr<Mezzo>>& mezziMissione,
+                        TipoMissione t);
 
     void mostraPersonale() const;
     void mostraMezzi() const;
@@ -42,7 +42,7 @@ public:
                             vector<int>& idMezzi,
                             vector<shared_ptr<Personale>>& personaleDisponibile,
                             vector<shared_ptr<Mezzo>>& mezziDisponibili, 
-                            TipoMissione tipo);
+                            TipoMissione tipo) const;
 };
 
 #endif

@@ -31,18 +31,7 @@ void Caserma::aggiungiMezzo(const shared_ptr<Mezzo>& m) {
     }
 }
 
-// il for non può ciclare "personale" perchè è shared_ptr<T> quindi lo trasformo con una funzione (GestoreRisorse::getRisorse()) che ritorna un vettore
-void Caserma::mostraPersonale() const {
-    cout << "\n--- Personale ---\n";
-    for (const auto& p : personale.getRisorse())
-        cout << p->getId() << " - "
-        << p->getNome() << " ("
-        << p->gradoToString() << ") ["
-        << (p->isDisponibile() ? "Disponibile" : "In missione")
-        << (p->isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
-}
-
-bool Caserma::isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<shared_ptr<Personale>>& personaleDisponibile, vector<shared_ptr<Mezzo>>& mezziDisponibili, TipoMissione tipo){
+bool Caserma::isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, vector<shared_ptr<Personale>>& personaleDisponibile, vector<shared_ptr<Mezzo>>& mezziDisponibili, TipoMissione tipo) const{
     
     for (int id : idPersonale) {
         shared_ptr<Personale> persona = personale.getById(id);
@@ -86,13 +75,11 @@ bool Caserma::isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, v
     }
     
     switch (tipo) { 
-        case TipoMissione::SCORTA:
-            return nMezzi >= 3;
+        case TipoMissione::SCORTA: return nMezzi >= 3;
 
-        case TipoMissione::ASSALTO:
-            return nMezzi <= (nPersonale / 5);
+        case TipoMissione::ASSALTO: return nMezzi <= (nPersonale / 5);
 
-        case TipoMissione::ESTRAZIONE:
+        case TipoMissione::ESTRAZIONE: {
             int mezziTerrestri = 0;
             for (auto& mezzo : mezziDisponibili) {
                 string tipo = mezzo->getTipo();
@@ -107,6 +94,7 @@ bool Caserma::isMissioneValida(vector<int>& idPersonale, vector<int>& idMezzi, v
             }
             
             return (mezziTerrestri >= 2 && nPersonale >= 5);
+        }
         default:
             return false;
     }

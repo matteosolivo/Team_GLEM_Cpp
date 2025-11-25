@@ -4,6 +4,10 @@
 #include <limits>
 #include <stdexcept>
 
+void menu();
+Grado scegliGrado();
+TipoMissione chooseTipoMissione();
+
 int main() {
     Caserma& caserma = Caserma::getInstance();
     int scelta = 0;
@@ -45,7 +49,7 @@ int main() {
 
             case 3: {
                 string descrizione;
-                cout << "Descrizione missione: (default: Nessuna descrizione fornita) ";
+                cout << "Descrizione missione: (default: Nessuna descrizione fornita): ";
                 cin.ignore();
                 getline(std::cin, descrizione);
                 if(descrizione.length() == 0){

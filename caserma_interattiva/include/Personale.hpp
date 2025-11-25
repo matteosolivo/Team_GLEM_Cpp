@@ -18,11 +18,10 @@ class Personale: public Risorsa {
 private:
     string nome;
     Grado grado;
-    bool disponibile;
     bool pilota; // vero se è pilota, falso se non lo è.
 
 public:
-    Personale(int id, const string &nome, Grado grado, bool pilota);
+    Personale(int id, const string &nome, Grado grado, bool pilota = false);
 
     int getId() const;
 
@@ -31,12 +30,12 @@ public:
     bool isDisponibile() const;
     void setDisponibile(bool disp);
 
-    bool isPilota();
-    void setPilota(bool pilota);
-    
     Grado getGrado() const;
     string gradoToString() const;
 
+    bool isPilota();
+    void setPilota(bool pilota);
+    
     void getDescrizione() const override;
 };
 

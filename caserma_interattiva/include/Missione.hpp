@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 
+#include "GestoreRisorse.hpp"
 #include "Personale.hpp"
 #include "Mezzo.hpp"
 
