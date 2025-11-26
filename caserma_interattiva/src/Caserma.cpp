@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
 #include <stdexcept>
-#include <fstream>
-#include <memory>
 
 #include "../include/Caserma.hpp"
 #include "../include/Missione.hpp"
@@ -17,17 +13,17 @@ Caserma& Caserma::getInstance() {
 
 void Caserma::aggiungiPersonale(const shared_ptr<Personale>& p) {
     if(personale.aggiungiRisorsa(p)){
-        cout << "\nPersonale aggiunto con ID: " << p->getId();
+        cout << "\nPersonale aggiunto con ID: " << p->getId() << endl;
     } else {
-        cout << "\nPersonale con ID: " << p->getId() << " è già presente nella Caserma" << endl;
+        cout << "\nPersonale con ID: " << p->getId() << " è già presente nella Caserma\n" << endl;
     }
 }
 
 void Caserma::aggiungiMezzo(const shared_ptr<Mezzo>& m) {
     if(mezzi.aggiungiRisorsa(m)){
-        cout << "\nMezzo aggiunto con ID: " << m->getId();
+        cout << "\nMezzo aggiunto con ID: " << m->getId() << endl;
     } else {
-        cout << "\nMezzo con ID: " << m->getId() << " è già presente nella Caserma" << endl;
+        cout << "\nMezzo con ID: " << m->getId() << " è già presente nella Caserma\n" << endl;
     }
 }
 
@@ -121,8 +117,8 @@ void Caserma::mostraPersonale() const {
         cout << p->getId() << " - "
         << p->getNome() << " ("
         << p->gradoToString() << ") ["
-        << (p->isDisponibile() ? "Disponibile" : "In missione")
-        << (p->isPilota() ? "E' un pilota" : "Non è un pilota") << "]\n";
+        << (p->isDisponibile() ? "Disponibile - " : "In missione ")
+        << (p->isPilota() ? "E' un pilota " : "Non è un pilota ") << "]\n";
 }
 
 // il for non può ciclare "mezzi" perchè è shared_ptr<T> quindi lo trasformo con una funzione (GestoreRisorse::getRisorse()) che ritorna un vettore
@@ -135,31 +131,54 @@ void Caserma::mostraMezzi() const {
 }
 
 void Caserma::mostraMissioni() const {
-    for (const auto& m : missioni){
+    if (!missioni.empty())
+    {
+        for (const auto& m : missioni){
         m->mostraDettagli();
+    }
+    } else {
+        cout << "\nNessuna missione presente in caserma.\n";
     }
 }
 
 void Caserma::stampaSuFile() {
-    ofstream fUscitaCaserma("Caserma.txt");
+    string nomeFile = "Caserma.txt";
+    ofstream fUscitaCaserma(nomeFile);
     //eccezione controllo apertura corretta del file 
 
     fUscitaCaserma << "================ CASERMA ================" << endl;
     
-    fUscitaCaserma << "------------ PERSONALE ------------" << endl;
-    fUscitaCaserma << "  id  -  nome  -  grado" << endl;
-    for (const auto& p : personale.getRisorse()) {
-        fUscitaCaserma << p->getId() << " - " << p->getNome() << " - " << p->gradoToString() << endl;
+    if (!personale.getRisorse().empty()) {
+        fUscitaCaserma << "\n------------ PERSONALE ------------" << endl;
+        fUscitaCaserma << "  id  -  nome  -  grado" << endl;
+        for (const auto& p : personale.getRisorse()) {
+            fUscitaCaserma << p->getId() << " - " << p->getNome() << " - " << p->gradoToString() << endl;
+        }  
+    } else {
+        fUscitaCaserma << "\nNessun personale presente in caserma.\n";
     }
 
-    fUscitaCaserma << "------------ MEZZI ------------" << endl;
-    fUscitaCaserma << "  id  -  tipo" << endl;
-    for (const auto& m : mezzi.getRisorse()) {
-        fUscitaCaserma << m->getId() << " - " << m->getTipo() << endl;
+    if (!mezzi.getRisorse().empty()) {
+        fUscitaCaserma << "\n------------ MEZZI ------------" << endl;
+        fUscitaCaserma << "  id  -  tipo" << endl;
+        for (const auto& m : mezzi.getRisorse()) {
+            fUscitaCaserma << m->getId() << " - " << m->getTipo() << endl;
+        }
+    } else {
+        fUscitaCaserma << "\nNessun mezzo presente in caserma.\n";
+    }
+    
+    if (!missioni.empty()) {
+        fUscitaCaserma << "\n------------ MISSIONI ------------" << endl;
+        for (const auto& m : missioni){
+            m->stampaDettagliSuFile(fUscitaCaserma);
+        }
+    } else {
+        fUscitaCaserma << "\nNessuna missione presente in caserma.\n";
     }
 
-    fUscitaCaserma << "------------ MISSIONI ------------" << endl;
-    for (const auto& m : missioni){
-        m->stampaDettagliSuFile(fUscitaCaserma);
-    }   
+    // NON NECESSARIO IL CONTROLLO DI CHIUSURA MA LO ABBIAMO MESSO
+    fUscitaCaserma.close();
+
+    cout << "\nResoconto caserma salvato su file '"<< nomeFile << endl;
 }

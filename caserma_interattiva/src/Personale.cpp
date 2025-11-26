@@ -1,16 +1,20 @@
 #include "../include/Personale.hpp"
+#include "Personale.hpp"
 
-Personale::Personale(int id, const std::string& nome, Grado grado, bool pilota)
+using namespace std;
+
+Personale::Personale(int id, const string& nome, Grado grado, bool pilota)
     : Risorsa(id), nome(nome), grado(grado), pilota(pilota){};
 
+// GETTERS
 int Personale::getId() const { return id; }
-
 string Personale::getNome() const { return nome; }
-
-bool Personale::isDisponibile() const { return disponibile; }
-void Personale::setDisponibile(bool disp) { disponibile = disp; }
-
 Grado Personale::getGrado() const { return grado; }
+bool Personale::isPilota(){ return pilota; }
+
+void Personale::setNome(string nome) { nome = nome; }
+void Personale::setPilota(bool pilota){ this->pilota = pilota; }
+
 string Personale::gradoToString() const {
     switch (grado) {
         case Grado::SOLDATO: return "Soldato";
@@ -22,9 +26,6 @@ string Personale::gradoToString() const {
         default: return "Sconosciuto";
     }
 }
-
-bool Personale::isPilota(){ return pilota; }
-void Personale::setPilota(bool pilota){ this->pilota = pilota; }
 
 void Personale::getDescrizione() const {
     cout << id << " - "

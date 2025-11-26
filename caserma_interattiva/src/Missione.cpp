@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <memory>
 
 #include "../include/Missione.hpp"
@@ -29,17 +28,20 @@ string Missione::tipoMissioneToString() const {
 }
 
 void Missione::mostraDettagli() const {
-    cout << "=== Missione " << id << " ===\n";
+    cout << "\n=== Missione " << id << " ===\n";
     cout << "Tipo di Missione: " << tipoMissioneToString() << "\n";
     cout << "Descrizione: " << descrizione << "\n";
 
     cout << "Personale assegnato:\n";
-    for (auto p : personaleAssegnato.getRisorse())
+    for (auto p : personaleAssegnato.getRisorse()){
         p->getDescrizione();
-
+    }
     cout << "Mezzi assegnati:\n";
-    for (auto m : mezziAssegnati.getRisorse())
+    for (auto m : mezziAssegnati.getRisorse()){
         m->getDescrizione();
+    }
+    
+        cout << endl;
 }
 
 void Missione::setTipoMissione(TipoMissione t){
@@ -52,10 +54,12 @@ void Missione::stampaDettagliSuFile(ofstream& output) const{
     output << "Descrizione: " << descrizione << "\n";
 
     output << "Personale assegnato:\n";
-    for (auto p : personaleAssegnato.getRisorse())
+    for (auto p : personaleAssegnato.getRisorse()){
         output << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
-
+    }
     output << "Mezzi assegnati:\n";
-    for (auto m : mezziAssegnati.getRisorse())
+    for (auto m : mezziAssegnati.getRisorse()){
         output << " - " << m->getTipo() << "\n";
+    }
+    cout << endl;
 }

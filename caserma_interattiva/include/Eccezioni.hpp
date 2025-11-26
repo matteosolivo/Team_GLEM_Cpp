@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 
-
 class ExceptionPersonale {
 public:
     void showMessageP(const std::string& msg);
@@ -14,6 +13,11 @@ public:
 class ExceptionMezzo {
 public:
     void showMessageM(const std::string& msg);
+};
+
+class FileException {
+public:
+    void showMessageF(const std::string& msg);
 };
 
 #endif

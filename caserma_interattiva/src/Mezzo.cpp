@@ -1,5 +1,7 @@
 #include "../include/Mezzo.hpp"
 
+using namespace std;
+
 Mezzo::Mezzo(int id, const string& tipo)
     : Risorsa(id), tipo(tipo){}
 

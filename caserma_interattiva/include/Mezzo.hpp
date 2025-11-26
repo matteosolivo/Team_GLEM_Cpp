@@ -5,12 +5,12 @@
 
 class Mezzo : public Risorsa {
 private:
-    string tipo;
+    std::string tipo;
 
 public:
-    Mezzo(int id, const string& tipo);
-
-    string getTipo() const { return tipo; }
+    Mezzo(int id, const std::string& tipo);
+    
+    std::string getTipo() const { return tipo; }
     void getDescrizione() const override;
 };
 

@@ -3,12 +3,10 @@
 
 #include <vector>
 
-using namespace std;
-
 template <typename T>
 class GestoreRisorse {
 private:
-    vector<T> risorse;
+    std::vector<T> risorse;
 
 public:
     // return false -> se non esiste
@@ -31,7 +29,7 @@ public:
     }
 
     // RITORNA UN VETTORE DI OGGETTI. UTILE PER LA STAMPA
-    const vector<T>& getRisorse() const { return risorse; }
+    const std::vector<T>& getRisorse() const { return risorse; }
 
     // RITORNA nullptr SE NON TROVA NULLA
     T getById(int id) const {
