@@ -1,28 +1,65 @@
-#include "../include/Missione.hpp"
 #include <iostream>
+#include <memory>
 
-Missione::Missione(int id, const std::string& descrizione)
-    : id(id), descrizione(descrizione) {}
+#include "../include/Missione.hpp"
 
-void Missione::assegnaPersonale(Personale* p) {
-    personaleAssegnato.push_back(p);
+using namespace std;
+
+Missione::Missione(int id, const string& descrizione, TipoMissione tipo)
+    : id(id), descrizione(descrizione), tipo(tipo){}
+
+void Missione::assegnaPersonale(shared_ptr<Personale>& p) {
+    personaleAssegnato.aggiungiRisorsa(p);
     p->setDisponibile(false);
 }
 
-void Missione::assegnaMezzo(Mezzo* m) {
-    mezziAssegnati.push_back(m);
+void Missione::assegnaMezzo(shared_ptr<Mezzo>& m) {
+    mezziAssegnati.aggiungiRisorsa(m);
     m->setDisponibile(false);
 }
 
+string Missione::tipoMissioneToString() const {
+    switch(tipo) {
+        case TipoMissione::SCORTA: return "Scorta";
+        case TipoMissione::ASSALTO: return "Assalto";
+        case TipoMissione::ESTRAZIONE: return "Estrazione";
+        default: return "Sconosciuto";
+    }
+}
+
 void Missione::mostraDettagli() const {
-    std::cout << "=== Missione " << id << " ===\n";
-    std::cout << "Descrizione: " << descrizione << "\n";
+    cout << "\n=== Missione " << id << " ===\n";
+    cout << "Tipo di Missione: " << tipoMissioneToString() << "\n";
+    cout << "Descrizione: " << descrizione << "\n";
 
-    std::cout << "Personale assegnato:\n";
-    for (auto p : personaleAssegnato)
-        std::cout << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
+    cout << "Personale assegnato:\n";
+    for (auto p : personaleAssegnato.getRisorse()){
+        p->getDescrizione();
+    }
+    cout << "Mezzi assegnati:\n";
+    for (auto m : mezziAssegnati.getRisorse()){
+        m->getDescrizione();
+    }
+    
+        cout << endl;
+}
 
-    std::cout << "Mezzi assegnati:\n";
-    for (auto m : mezziAssegnati)
-        std::cout << " - " << m->getTipo() << "\n";
+void Missione::setTipoMissione(TipoMissione t){
+    tipo = t;
+}
+
+void Missione::stampaDettagliSuFile(ofstream& output) const{
+    output << "=== Missione " << id << " ===\n";
+    output << "Tipo di Missione: " << tipoMissioneToString() << "\n";
+    output << "Descrizione: " << descrizione << "\n";
+
+    output << "Personale assegnato:\n";
+    for (auto p : personaleAssegnato.getRisorse()){
+        output << " - " << p->getNome() << " (" << p->gradoToString() << ")\n";
+    }
+    output << "Mezzi assegnati:\n";
+    for (auto m : mezziAssegnati.getRisorse()){
+        output << " - " << m->getTipo() << "\n";
+    }
+    cout << endl;
 }

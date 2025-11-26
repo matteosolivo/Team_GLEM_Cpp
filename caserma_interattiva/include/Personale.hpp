@@ -14,16 +14,22 @@ enum class Grado{
 
 class Personale: public Risorsa {
 private:
-    string nome;
+    std::string nome;
     Grado grado;
+    bool pilota; // vero se è pilota, falso se non lo è.
 
 public:
-    Personale(int id, const string& nome, Grado grado);
+    Personale(int id, const std::string &nome, Grado grado, bool pilota);
 
-    string getNome() const;
+    int getId() const;
+    std::string getNome() const;
     Grado getGrado() const;
+    bool isPilota();
+    
+    void setNome(std::string nome);
+    void setPilota(bool pilota);
 
-    string gradoToString() const;
+    std::string gradoToString() const;
     void getDescrizione() const override;
 };
 
