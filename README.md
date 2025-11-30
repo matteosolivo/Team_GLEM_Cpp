@@ -16,3 +16,18 @@ Lavoro di gruppo in cui analizzare e migliorare un progetto C++.
 La presentazione sarà oggetto di valutazione e sarà effettuata tramite meet.
 Siete liberi di scegliere qualunque mezzo per la presentazione, saranno graditi sia elaborati scritti che grafici o diagrammi o anche una spiegazione direttamente del codice (nel qual caso opportunamente commentato), tutto quanto deve essere presentabile tramite call meet
 Sarà oggetto di valutazione positiva per il superamento dei 10 punti qualunque aggiunta al progetto che non ne alteri la funzionalità ma che ne estenda le proprietà, tutto quanto naturalmente dovrà essere giustificato.
+
+#### SCELTE IMPLEMENTATIVE:
+1. *Classe Astratta* tra personale e mezzo: Risorsa. --> **Motivazione**: eliminare codice duplicato, semplificare manutenzione e modifica.
+
+2. *Refactoring Caserma*: gestore risorse come classe template. --> **Motivazione**: per gestire più tipi di oggetti che usano le stesse funzioni.
+
+3. Creazione di un *makefile*. --> **Motivazione**: per facilitare il processo di compilazione.
+
+4. Aggiunta *flag* per indicare se un membro di personale è un *pilota* o no. --> **Motivazione**: collegare l’informazione facilmente al singolo membro di personale.
+
+5. Aggiunta di una *funzione controlloMissione*. --> **Motivazione**: per verificare in maniera completa il rispetto dei requisiti.
+
+6. *Stampa su file*: aggiunta per stampare un resoconto. --> **Motivazione**: dare la possibilità di salvare un resoconto concreto dello stato della caserma.
+
+7. Aggiunta di *eccezioni* su Missioni e Int. --> **Motivazione**: per gestire l’eventualità che si cerchi di usare personale o mezzo non disponibile o nel caso di inserimento di dato di tipo errato.
