@@ -3,13 +3,15 @@
 
 #include "Risorsa.hpp"
 
-class Mezzo : public Risorsa {
+class Mezzo : public Risorsa
+{
 private:
     std::string tipo;
 
 public:
-    Mezzo(int id, const std::string& tipo);
-    
+    Mezzo(int id, const std::string &tipo);
+
+    // GETTERS
     std::string getTipo() const { return tipo; }
     void getDescrizione() const override;
 };

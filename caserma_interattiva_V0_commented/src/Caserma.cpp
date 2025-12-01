@@ -1,14 +1,17 @@
 #include "../include/Caserma.hpp"
 #include <iostream>
 
+// AGGIUNTA PERSONALE
 void Caserma::aggiungiPersonale(const Personale& p) {
     personale.push_back(p);
 }
 
+// AGGIUNTA MEZZO
 void Caserma::aggiungiMezzo(const Mezzo& m) {
     mezzi.push_back(m);
 }
 
+// CREAZIONE MISSIONE
 void Caserma::creaMissione(const std::string& descrizione,
                            const std::vector<int>& idPersonale,
                            const std::vector<int>& idMezzi) {
@@ -30,6 +33,7 @@ void Caserma::creaMissione(const std::string& descrizione,
     missioni.push_back(missione);
 }
 
+// VISUALIZZAZIONE PERSONALE
 void Caserma::mostraPersonale() const {
     std::cout << "\n--- Personale ---\n";
     for (const auto& p : personale)
@@ -37,6 +41,7 @@ void Caserma::mostraPersonale() const {
                   << ") [" << (p.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
 }
 
+// VISUALIZZAZIONE MEZZI
 void Caserma::mostraMezzi() const {
     std::cout << "\n--- Mezzi ---\n";
     for (const auto& m : mezzi)
@@ -44,6 +49,7 @@ void Caserma::mostraMezzi() const {
                   << " [" << (m.isDisponibile() ? "Disponibile" : "In missione") << "]\n";
 }
 
+// VISUALIZZAZIONE MISSIONI
 void Caserma::mostraMissioni() const {
     std::cout << "\n=== Elenco Missioni ===\n";
     for (const auto& m : missioni)

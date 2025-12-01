@@ -22,11 +22,13 @@ private:
 public:
     Personale(int id, const std::string& nome, Grado grado);
 
+    // GETTERS
     int getId() const;
     std::string getNome() const;
     Grado getGrado() const;
     bool isDisponibile() const;
 
+    // SETTERS
     void setDisponibile(bool disp);
     std::string gradoToString() const;
 };

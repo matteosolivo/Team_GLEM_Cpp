@@ -6,9 +6,11 @@ void menu();
 Grado scegliGrado();
 
 int main() {
+    // INIZIALIZZAZIONE CASERMA
     Caserma caserma;
     int scelta = 0;
 
+    // MENU INTERATTIVO
     do {
         menu();
         std::cout << "\nScelta: ";
@@ -22,7 +24,7 @@ int main() {
         }
 
         switch (scelta) {
-            case 1: {
+            case 1: { // AGGIUNGI PERSONALE
                 std::string nome;
                 std::cout << "Inserisci nome del militare: ";
                 std::cin.ignore();
@@ -34,7 +36,7 @@ int main() {
                 break;
             }
 
-            case 2: {
+            case 2: { // AGGIUNGI MEZZO
                 std::string tipo;
                 std::cout << "Inserisci tipo di mezzo (es: Jeep, Camion, Elicottero): ";
                 std::cin.ignore();
@@ -45,7 +47,7 @@ int main() {
                 break;
             }
 
-            case 3: {
+            case 3: { // CREA MISSIONE
                 std::string descrizione;
                 std::cout << "Descrizione missione: ";
                 std::cin.ignore();
@@ -70,19 +72,19 @@ int main() {
                 break;
             }
 
-            case 4:
+            case 4: // MOSTRA PERSONALE
                 caserma.mostraPersonale();
                 break;
 
-            case 5:
+            case 5: // MOSTRA MEZZI
                 caserma.mostraMezzi();
                 break;
 
-            case 6:
+            case 6: // MOSTRA MISSIONI
                 caserma.mostraMissioni();
                 break;
 
-            case 0:
+            case 0: // USCITA
                 std::cout << "Uscita...\n";
                 break;
 
@@ -95,6 +97,7 @@ int main() {
     return 0;
 }
 
+// FUNZIONI DI SUPPORTO AL MAIN
 void menu() {
     std::cout << "\n========== GESTIONE CASERMA ==========" << std::endl;
     std::cout << "1. Aggiungi personale" << std::endl;

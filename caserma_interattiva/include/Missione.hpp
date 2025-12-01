@@ -7,13 +7,16 @@
 #include "Personale.hpp"
 #include "Mezzo.hpp"
 
-enum class TipoMissione{
+// DEFINIZIONE ENUMERAZIONE PER TipoMissione
+enum class TipoMissione
+{
     SCORTA,
     ASSALTO,
     ESTRAZIONE
 };
 
-class Missione {
+class Missione
+{
 private:
     int id;
     std::string descrizione;
@@ -21,20 +24,19 @@ private:
     GestoreRisorse<std::shared_ptr<Mezzo>> mezziAssegnati;
     TipoMissione tipo;
 
-
 public:
-    Missione(int id, const std::string& descrizione, TipoMissione tipo);
+    Missione(int id, const std::string &descrizione, TipoMissione tipo);
 
-    void assegnaPersonale(std::shared_ptr<Personale>& p);
-    void assegnaMezzo(std::shared_ptr<Mezzo>& m);
+    void assegnaPersonale(std::shared_ptr<Personale> &p);
+    void assegnaMezzo(std::shared_ptr<Mezzo> &m);
 
     TipoMissione chooseTipoMissione();
     void setTipoMissione(TipoMissione t);
-    
+
     std::string tipoMissioneToString() const;
 
     void mostraDettagli() const;
-    void stampaDettagliSuFile(std::ofstream& output) const;
+    void stampaDettagliSuFile(std::ofstream &output) const;
 };
 
 #endif

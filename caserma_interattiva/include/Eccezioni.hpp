@@ -1,23 +1,28 @@
-// Eccezioni.hpp
 #ifndef ECCEZIONI_HPP
 #define ECCEZIONI_HPP
 
 #include <iostream>
 #include <string>
 
-class ExceptionPersonale {
+// CLASSE PER GESTIONE ECCEZIONI PERSONALE
+class ExceptionPersonale
+{
 public:
-    void showMessageP(const std::string& msg);
+    void showMessageP(const std::string &msg);
 };
 
-class ExceptionMezzo {
+// CLASSE PER GESTIONE ECCEZIONI MEZZO
+class ExceptionMezzo
+{
 public:
-    void showMessageM(const std::string& msg);
+    void showMessageM(const std::string &msg);
 };
 
-class FileException {
+// CLASSE PER GESTIONE ECCEZIONI FILE
+class FileException
+{
 public:
-    void showMessageF(const std::string& msg);
+    void showMessageF(const std::string &msg);
 };
 
 #endif

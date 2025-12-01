@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string>
 
-class Risorsa {
+class Risorsa
+{
 protected:
     int id;
     bool disponibile;
@@ -14,15 +15,16 @@ public:
     Risorsa(int id) : id(id), disponibile(true) {}
     // DISTRUTTORE
     virtual ~Risorsa() = default;
-    
-    int getId() const { return id; }
 
+    // GETTERS
+    int getId() const { return id; }
     bool isDisponibile() const { return disponibile; }
+
+    // SETTERS
     void setDisponibile(bool disp) { disponibile = disp; }
-    
+
     // METODI DA FAR IMPLEMENTARE ALLE SINGOLE CLASSI Mezzo.cpp, Personale.cpp, ...
     virtual void getDescrizione() const = 0;
-    
 };
 
 #endif
