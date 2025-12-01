@@ -31,3 +31,5 @@ Sarà oggetto di valutazione positiva per il superamento dei 10 punti qualunque 
 6. *Stampa su file*: aggiunta per stampare un resoconto. --> **Motivazione**: dare la possibilità di salvare un resoconto concreto dello stato della caserma.
 
 7. Aggiunta di *eccezioni* su Missioni e Int. --> **Motivazione**: per gestire l’eventualità che si cerchi di usare personale o mezzo non disponibile o nel caso di inserimento di dato di tipo errato.
+
+8. Utilizzo di *Singleton* per l'oggetto caserma. --> **Motivazione**: per fare in modo che sia presente solo un'istanza di caserma a cui si fa riferimento su tutto il codice
