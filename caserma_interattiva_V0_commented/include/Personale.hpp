@@ -31,6 +31,8 @@ public:
 
     // SETTERS
     void setDisponibile(bool disp);
+
+    //funzione che ritorna il grado in forma stringa
     std::string gradoToString() const;
 };
 
