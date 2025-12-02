@@ -3,6 +3,7 @@
 
 #include <string>
 
+//ENUMERAZIONE PER LA SCELTA DEL GRADO
 enum class Grado {
     SOLDATO,
     CAPORALE,
