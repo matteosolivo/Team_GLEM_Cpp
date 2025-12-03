@@ -1,4 +1,4 @@
-# Team_GLEM_C++
+\# Team_GLEM_C++
 Lavoro di gruppo in cui analizzare e migliorare un progetto C++.
 ---
 #### CONSEGNA:
@@ -16,6 +16,24 @@ Lavoro di gruppo in cui analizzare e migliorare un progetto C++.
 La presentazione sarà oggetto di valutazione e sarà effettuata tramite meet.
 Siete liberi di scegliere qualunque mezzo per la presentazione, saranno graditi sia elaborati scritti che grafici o diagrammi o anche una spiegazione direttamente del codice (nel qual caso opportunamente commentato), tutto quanto deve essere presentabile tramite call meet
 Sarà oggetto di valutazione positiva per il superamento dei 10 punti qualunque aggiunta al progetto che non ne alteri la funzionalità ma che ne estenda le proprietà, tutto quanto naturalmente dovrà essere giustificato.
+
+#### STRUTTURA:
+
+1. Template, GestoreRisorse.hpp, che accetta oggetti di tipo Risorsa e quindi anche le sue sottoclassi, nel nostro caso Personale e Mezzo.
+
+2. Classe astratta Risorsa.hpp, che verrà estesa dalle classi Personale e Mezzo, che fornisce metodi che le classi figlie sono poi libere di ridefinire.
+
+3. Personale e Mezzo estendono la classe astratta Risorsa, che ridefiniscono e aggiungono metodi al loro interno.
+
+4. Caserma è un punto centrale, che incrocia sia metodi da usare sulle missioni, i mezzi e il personale, che la parte di salvataggio delle informazioni su tutti i componenti della caserma. Utilizza il pattern di singleton. 
+
+5. Nella struttura del progetto sono state anche inserite le eccezioni, con un file .hpp e un file .cpp per gestire le eccezioni riguardo agli oggetti di tipo personale, gli oggetti di tipo mezzo, e le eccezioni che riguardano la gestione dei file.
+
+6. Il file main utilizza un'istanza di Caserma, implementata con pattern di costruzione Singleton.
+
+7. I file Missione.hpp e Missione.cpp permettono di definire l'oggetto di tipo Missione.
+
+8. Il file Makefile facilita il processo di compilazione
 
 #### SCELTE IMPLEMENTATIVE:
 1. *Classe Astratta* tra personale e mezzo: Risorsa. --> **Motivazione**: eliminare codice duplicato, semplificare manutenzione e modifica.
