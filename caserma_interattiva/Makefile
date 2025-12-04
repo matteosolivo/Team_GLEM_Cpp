@@ -1,18 +1,23 @@
 CXX = g++
 
 CXXFLAGS = -std=c++17 -Wall -Iinclude
-
-SRC_DIR = src # Directory per i file sorgente
-OBJ_DIR = obj # Directory per i file oggetto
-BIN_DIR = bin # Directory per i file binari
+# Directory per i file sorgente
+SRC_DIR = src
+# Directory per i file oggetto
+OBJ_DIR = obj
+# Directory per i file binari
+BIN_DIR = bin
 
 # TARGET é il nostro eseguibile
 TARGET = $(BIN_DIR)/caserma
 
 # Creazione delle nostre variabili SRC
-SRC = $(wildcard $(SRC_DIR)/*.cpp) main.cpp # Spazio per aggiungere altri file sorgente
-OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)	# Trasformazione dei file sorgente in file oggetto
 
+# Spazio per aggiungere altri file sorgente
+SRC = $(wildcard $(SRC_DIR)/*.cpp) main.cpp
+
+# Trasformazione dei file sorgente in file oggetto
+OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 # target di default
 all: setup $(TARGET)
 
